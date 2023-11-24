@@ -1,0 +1,11 @@
+<link rel="stylesheet" href="{{ BASE_URL . 'public/user/css/bootstrap-reboot.min.css' }}">
+<link rel="stylesheet" href="{{ BASE_URL . 'public/user/css/bootstrap-grid.min.css' }}">
+<link rel="stylesheet" href="{{ BASE_URL . 'public/user/css/owl.carousel.min.css' }}">
+<link rel="stylesheet" href="{{ BASE_URL . 'public/user/css/jquery.mCustomScrollbar.min.css' }}">
+<link rel="stylesheet" href="{{ BASE_URL . 'public/user/css/nouislider.min.css' }}">
+<link rel="stylesheet" href="{{ BASE_URL . 'public/user/css/ionicons.min.css' }}">
+<link rel="stylesheet" href="{{ BASE_URL . 'public/user/css/magnific-popup.css' }}">
+<link rel="stylesheet" href="{{ BASE_URL . 'public/user/css/plyr.css' }}">
+<link rel="stylesheet" href="{{ BASE_URL . 'public/user/css/photoswipe.css' }}">
+<link rel="stylesheet" href="{{ BASE_URL . 'public/user/css/default-skin.css' }}">
+<link rel="stylesheet" href="{{ BASE_URL . 'public/user/css/main.css' }}">

@@ -1,0 +1,199 @@
+<?php $_shouldextend[1]=1; ?>
+<?php $this->startSection('main-content'); ?>
+ <main class="main">
+ <div class="container-fluid">
+ <div class="row">
+ <!-- main title -->
+ <div class="col-12">
+ <div class="main__title">
+ <h2>Video</h2>
+
+ <span class="main__title-stat"><?php echo \htmlentities($size??'', ENT_QUOTES, 'UTF-8', false); ?></span>
+
+ <div class="main__title-wrap">
+
+ <?php /* <div class="filter" id="filter__sort" style="margin:20px ;">
+
+ <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-sort"
+ data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+ <input type="button" value="">
+ <span></span>
+ </div>
+
+ <ul class="filter__item-menu dropdown-menu scrollbar-dropdown"
+ aria-labelledby="filter-sort">
+ <li><a href="<?php echo \htmlentities(route('admin/movies/unblock/cate/'.$id)??'', ENT_QUOTES, 'UTF-8', false); ?>">Hành động</a></li>
+ <li>Trẻ con</li>
+ <li>kinh</li>
+ </ul>
+ </div> */ ?>
+ <!-- end filter sort -->
+
+ <!-- search -->
+ <form action="<?php echo \htmlentities(route('admin/movies/browser/serch')??'', ENT_QUOTES, 'UTF-8', false); ?>" method="post" class="main__title-form">
+ <input type="text" name="i_serch" placeholder="Tìm tên ...">
+ <button type="submit">
+ <i class="icon ion-ios-search"></i>
+ </button>
+ </form>
+ <!-- end search -->
+
+ <a href="<?php echo \htmlentities(route('admin/movies/add')??'', ENT_QUOTES, 'UTF-8', false); ?>" class="main__title-link">add item</a>
+ </div>
+
+ </div>
+ </div>
+ <!-- end main title -->
+
+ <!-- users -->
+ <div class="col-12">
+ <div class="">
+ <table class="main__table">
+ <thead>
+ <tr>
+ <?php if(isset($_SESSION['login']) && $_SESSION['login']->role == 1): ?>
+ <th>Người đăng</th>
+ <?php endif; ?>
+ <th>Tên phim</th>
+ <th>Phim</th>
+ <th>Trailer</th>
+ <th>Ảnh</th>
+ <th>Loại phim</th>
+ <th>Lượt xem</th>
+ <th>Ngày phát</th>
+ <th>Trạng thái</th>
+ <?php if(isset($_SESSION['login']) && $_SESSION['login']->role == 1): ?>
+ <th>Hành động</th>
+ <?php endif; ?>
+
+ </tr>
+ </thead>
+
+ <tbody>
+ <?php $__currentLoopData = $movies; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $value_movies): $loop = $this->incrementLoopIndices();  ?>
+ <tr>
+ <?php if(isset($_SESSION['login']) && $_SESSION['login']->role == 1): ?>
+ <td style="color: white;">
+ <div class="main__table-text">
+ <div
+ class="main__table-text"style="width:100px;white-space: nowrap; overflow: hidden; ">
+ <?php echo \htmlentities($value_movies->email??'', ENT_QUOTES, 'UTF-8', false); ?></div>
+ </div>
+ </td>
+ <?php endif; ?>
+ <td style="width:100px;">
+ <div class="main__table-text">
+ <div
+ class="main__table-text"style="width:200px;white-space: nowrap; overflow: hidden; ">
+ <?php echo \htmlentities($value_movies->name_movie??'', ENT_QUOTES, 'UTF-8', false); ?></div>
+ </div>
+ </td>
+ <td>
+ <div class="main__table-text">
+ <div class="main__table-text"
+ style="width:100px;white-space: nowrap; overflow: hidden; ">
+ <?php echo \htmlentities($value_movies->name_video??'', ENT_QUOTES, 'UTF-8', false); ?></div>
+ </div>
+ </td>
+ <td>
+ <div class="main__table-text">
+ <div class="main__table-text"
+ style="width:200px;white-space: nowrap; overflow: hidden; ">
+ <?php echo \htmlentities($value_movies->name_trailer??'', ENT_QUOTES, 'UTF-8', false); ?></div>
+ </div>
+ </td>
+ <td>
+ <div class="main__table-text">
+ <div class="main__avatar">
+ <img src="<?php echo \htmlentities(BASE_URL . 'public/img/img_upload/' . $value_movies->img_movie??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ alt="">
+ </div>
+ </div>
+ </td>
+ <td>
+ <div class="main__table-text"><?php echo \htmlentities($value_movies->id_cate??'', ENT_QUOTES, 'UTF-8', false); ?></div>
+ </td>
+ <td>
+ <div class="main__table-text"><?php echo \htmlentities($value_movies->viewer??'', ENT_QUOTES, 'UTF-8', false); ?></div>
+ </td>
+ <td>
+ <div class="main__table-text"><?php echo \htmlentities($value_movies->date_play??'', ENT_QUOTES, 'UTF-8', false); ?></div>
+ </td>
+ <td>
+ <div class="main__table-text">
+ <?php if($value_movies->status_m == 1): ?>
+ <div class="main__table-text--green">Đang chờ duyệt</div>
+ <?php else: ?>
+ <?php if($value_movies->status_m == 3): ?>
+ <div class="main__table-text--red">Bị từ chối</div>
+ <?php endif; ?>
+ <?php endif; ?>
+ </div>
+ </td>
+ <?php if(isset($_SESSION['login']) && $_SESSION['login']->role == 1): ?>
+ <td>
+ <div class="main__table-btns">
+
+ <a href="<?php echo \htmlentities(route('admin/movies/refuse/' . $value_movies->id_movie)??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ class="main__table-btn main__table-btn--delete"
+ onclick="return confirm('Bạn muốn từ chối ?')">
+ <svg xmlns="http://www.w3.org/2000/svg" width="16"
+ height="16" fill="currentColor" class="bi bi-x"
+ viewBox="0 0 16 16">
+ <path
+ d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+ </svg>
+ </a>
+ <a href="<?php echo \htmlentities(route('admin/movies/accept/' . $value_movies->id_movie)??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ class="main__table-btn main__table-btn--edit">
+ <svg xmlns="http://www.w3.org/2000/svg" width="16"
+ height="16" fill="currentColor" class="bi bi-check2-circle"
+ viewBox="0 0 16 16">
+ <path
+ d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0" />
+ <path
+ d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+ </svg>
+ </a>
+ </div>
+ </td>
+ <?php endif; ?>
+
+ </tr>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </tbody>
+ </table>
+ </div>
+ </div>
+ <!-- end users -->
+
+ <!-- paginator -->
+ <div class="col-12">
+ <div class="paginator-wrap">
+ <ul class="paginator">
+ <?php if($page > 1): ?>
+ <li class="paginator__item paginator__item--prev">
+ <a href="<?php echo \htmlentities(route('admin/movies/browser/' . $page - 1)??'', ENT_QUOTES, 'UTF-8', false); ?>"><i
+ class="icon ion-ios-arrow-back"></i></a>
+ </li>
+ <?php endif; ?>
+ <li class="paginator__item paginator__item--active"><a href="#"><?php echo \htmlentities($page??'', ENT_QUOTES, 'UTF-8', false); ?></a>
+ </li>
+ <?php if($page < $maxpage): ?>
+ <li class="paginator__item paginator__item--next">
+ <a href="<?php echo \htmlentities(route('admin/movies/browser/' . $page + 1)??'', ENT_QUOTES, 'UTF-8', false); ?>"><i
+ class="icon ion-ios-arrow-forward"></i></a>
+ </li>
+ <?php endif; ?>
+
+ </ul>
+ </div>
+ </div>
+ <!-- end paginator -->
+ </div>
+ </div>
+ </main>
+<?php $this->stopSection(); ?>
+
+<?php if (isset($_shouldextend[1])) { echo $this->runChild('admin.layout.main'); } ?>
