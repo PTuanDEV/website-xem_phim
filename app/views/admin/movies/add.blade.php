@@ -90,7 +90,7 @@
                                                     <div class="form__group">
                                                         <label class="form__label" for="username">Năm phát hành</label>
                                                         <input id="date" type="number" name="rearelease_year"
-                                                            class="form__input" placeholder="Năm phát hành">
+                                                            class="form__input" placeholder="Năm phát hành" min="1" max="{{ date('Y') }}">
                                                     </div>
                                                 </div>
 
@@ -98,7 +98,7 @@
                                                     <div class="form__group">
                                                         <label class="form__label" for="img">Thời lượng</label>
                                                         <input id="img" type="number" name="time"
-                                                            class="form__input" placeholder="Thời lượng">
+                                                            class="form__input" placeholder="Thời lượng" min="1">
                                                     </div>
                                                 </div>
 
@@ -112,8 +112,8 @@
 
                                                 <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                     <div class="form__group">
-                                                        <label class="form__label" for="img">Ngày chạy</label>
-                                                        <input id="img" type="date" name="date_play"
+                                                        <label class="form__label" for="img">Ngày chạy (2002-03-25 00:00:00)</label>
+                                                        <input id="img" type="datetime" name="date_play"
                                                             class="form__input">
                                                     </div>
                                                 </div>

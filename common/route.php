@@ -28,11 +28,9 @@ if (isset($_SESSION['login']) && $_SESSION['login']->role == 1) {
 
     $router->group(array('prefix' => 'admin'), function (RouteCollector $collector) {
 
-        $collector->get('/', [App\Controllers\BaseController::class, 'home']);
+        $collector->get('/', [App\Controllers\Admin\StatController::class, 'home']);
 
         // Router user
-        // get admin/user/{route}/{url}
-        //  post admin/user/serch/{route}
         $collector->group(array('prefix' => 'user'), function (RouteCollector $user) {
             $user->get('password/{id}', [App\Controllers\Admin\UserController::class, 'resetPass']);
             $user->get('delete/{id}', [App\Controllers\Admin\UserController::class, 'delete']);
@@ -112,6 +110,29 @@ if (isset($_SESSION['login']) && $_SESSION['login']->role == 1) {
             $movies->get('open/{id}', [App\Controllers\Admin\MovieController::class, 'open']);
             $movies->get('refuse/{id}', [App\Controllers\Admin\MovieController::class, 'refuse']);
             $movies->get('accept/{id}', [App\Controllers\Admin\MovieController::class, 'accept']);
+        });
+
+        // Router member
+        $collector->group(array('prefix' => 'member'), function (RouteCollector $member) {
+            // router movies unblock 
+            $member->group(array('prefix' => 'unblock'), function (RouteCollector $unblock) {
+                $unblock->get('/', [App\Controllers\Admin\MemberController::class, 'getAll']);
+                $unblock->get('/{page}', [App\Controllers\Admin\MemberController::class, 'getPage']);
+                $unblock->post('serch', [App\Controllers\Admin\MemberController::class, 'getSerch']);
+            });
+            // router movies block 
+            $member->group(array('prefix' => 'block'), function (RouteCollector $block) {
+                $block->get('/', [App\Controllers\Admin\MemberController::class, 'getBlock']);
+                $block->get('/{page}', [App\Controllers\Admin\MemberController::class, 'getPageBlock']);
+                $block->post('serch', [App\Controllers\Admin\MemberController::class, 'getSerchBlock']);
+            });
+
+            $member->get('delete/{id}', [App\Controllers\Admin\MemberController::class, 'delete']);
+            $member->get('open/{id}', [App\Controllers\Admin\MemberController::class, 'open']);
+            $member->get('add', [App\Controllers\Admin\MemberController::class, 'add']);
+            $member->post('add', [App\Controllers\Admin\MemberController::class, 'postAdd']);
+            $member->get('edit/{id}', [App\Controllers\Admin\MemberController::class, 'edit']);
+            $member->post('edit/{id}', [App\Controllers\Admin\MemberController::class, 'editPost']);
         });
     });
 } else {

@@ -1,0 +1,146 @@
+<?php $_shouldextend[1]=1; ?>
+<?php $this->startSection('main-content'); ?>
+ <!-- main content -->
+ <main class="main">
+ <div class="container-fluid">
+ <div class="row row--grid">
+ <!-- main title -->
+ <div class="col-12">
+ <div class="main__title">
+ <h2>Thống kê</h2>
+ </div>
+ </div>
+ <!-- end main title -->
+
+ <!-- stats -->
+ <div class="col-12 col-sm-6 col-lg-3">
+ <div class="stats">
+ <span>Lượt xem trong tháng</span>
+ <p><?php echo \htmlentities($see??'', ENT_QUOTES, 'UTF-8', false); ?></p>
+ <i class="icon ion-ios-stats"></i>
+ </div>
+ </div>
+ <!-- end stats -->
+
+ <!-- stats -->
+ <div class="col-12 col-sm-6 col-lg-3">
+ <div class="stats">
+ <span>Phim mới trong tháng</span>
+ <p><?php echo \htmlentities($value??'', ENT_QUOTES, 'UTF-8', false); ?></p>
+ <i class="icon ion-ios-film"></i>
+ </div>
+ </div>
+ <!-- end stats -->
+
+ <!-- stats -->
+ <div class="col-12 col-sm-6 col-lg-3">
+ <div class="stats">
+ <span>Bình luận mới</span>
+ <p>2 573</p>
+ <i class="icon ion-ios-chatbubbles"></i>
+ </div>
+ </div>
+ <!-- end stats -->
+
+ <!-- stats -->
+ <div class="col-12 col-sm-6 col-lg-3">
+ <div class="stats">
+ <span>Doanh thu</span>
+ <p><?php echo \htmlentities($moneys??'', ENT_QUOTES, 'UTF-8', false); ?></p>
+ <i class="icon ion-ios-star-half"></i>
+ </div>
+ </div>
+ <!-- end stats -->
+
+ <!-- dashbox -->
+ <div class="col-12 col-xl-6">
+ <div class="dashbox">
+ <div class="dashbox__title">
+ <h3><i class="icon ion-ios-contacts"></i>Tài khoản mới</h3>
+ </div>
+
+ <div class="dashbox__table-wrap">
+ <table class="main__table main__table--dash">
+ <thead>
+ <tr>
+ <th>ID</th>
+ <th>Họ và tên</th>
+ <th>Email</th>
+ <th>Số điện thoại</th>
+ </tr>
+ </thead>
+ <tbody>
+ <?php $__currentLoopData = $users; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $valueuser): $loop = $this->incrementLoopIndices();  ?>
+ <tr>
+ <td>
+ <div class="main__table-text"><?php echo \htmlentities($valueuser->id_user??'', ENT_QUOTES, 'UTF-8', false); ?></div>
+ </td>
+ <td>
+ <div class="main__table-text"><a
+ href="#"><?php echo \htmlentities($valueuser->fullname??'', ENT_QUOTES, 'UTF-8', false); ?></a></div>
+ </td>
+ <td>
+ <div class="main__table-text main__table-text--grey"><?php echo \htmlentities($valueuser->email??'', ENT_QUOTES, 'UTF-8', false); ?>
+
+ </div>
+ </td>
+ <td>
+ <div class="main__table-text"><?php echo \htmlentities($valueuser->phone??'', ENT_QUOTES, 'UTF-8', false); ?></div>
+ </td>
+ </tr>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </tbody>
+ </table>
+ </div>
+ </div>
+ </div>
+ <!-- end dashbox -->
+
+ <!-- dashbox -->
+ <div class="col-12 col-xl-6">
+ <div class="dashbox">
+ <div class="dashbox__title">
+ <h3><i class="icon ion-ios-film"></i>Phim xem nhiều nhất</h3>
+ </div>
+
+ <div class="dashbox__table-wrap">
+ <table class="main__table main__table--dash">
+ <thead>
+ <tr>
+ <th>ID</th>
+ <th>Tên phim</th>
+ <th>Lượt xem</th>
+ </tr>
+ </thead>
+ <tbody>
+ <?php $__currentLoopData = $movies_limit; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $movies_limit_vl): $loop = $this->incrementLoopIndices();  ?>
+ <tr>
+ <td>
+ <div class="main__table-text"><?php echo \htmlentities($movies_limit_vl->id_movie??'', ENT_QUOTES, 'UTF-8', false); ?></div>
+ </td>
+ <td>
+ <div class="main__table-text"><a
+ href="#"><?php echo \htmlentities($movies_limit_vl->name_movie??'', ENT_QUOTES, 'UTF-8', false); ?></a>
+ </div>
+ </td>
+ <td>
+ <div class="main__table-text"><?php echo \htmlentities($movies_limit_vl->viewer??'', ENT_QUOTES, 'UTF-8', false); ?></div>
+ </td>
+ </tr>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </tbody>
+ </table>
+ </div>
+ </div>
+ </div>
+ <!-- end dashbox -->
+
+ </div>
+ </div>
+ </main>
+ <!-- end main content -->
+<?php $this->stopSection(); ?>
+
+<?php if (isset($_shouldextend[1])) { echo $this->runChild('admin.layout.main'); } ?>

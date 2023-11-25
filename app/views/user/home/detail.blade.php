@@ -21,8 +21,8 @@
                                     <img src="{{ BASE_URL . 'public/img/img_upload/' . $movies->img }}" alt=""
                                         style="width:400px; height:360px;">
                                 </div>
-                                <a href="https://drive.google.com/file/d/1DeiB_SbheubeQTbm0HKiYx4uQA5-gEm4/preview"
-                                    class="card__trailer"><i class="icon ion-ios-play-circle"></i> Watch trailer</a>
+                                <a href="{{ $movies->name_trailer }}" class="card__trailer"><i
+                                        class="icon ion-ios-play-circle"></i> Watch trailer</a>
                                 {{-- <iframe src=""
                                     frameborder="0" class="card__trailer"><i class="icon ion-ios-play-circle" width="420"
                                         height="345"></i> Watch trailer</iframe> --}}
@@ -52,7 +52,11 @@
 
                 <!-- player -->
                 <div class="col-12 col-xl-6">
-
+@if ()
+    
+@else
+    
+@endif
                     <iframe src="{{ $movies->name_video }}" width="640" height="440">
                     </iframe>
 

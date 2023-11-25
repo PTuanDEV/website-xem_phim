@@ -189,7 +189,7 @@
                                                 <div class="col-12">
                                                     <div class="form__group">
                                                         <label class="form__label" for="img">Ngày tạo</label>
-                                                        <input type="date" name="date_play" class="form__input"
+                                                        <input type="datetime" name="date_play" class="form__input"
                                                             value="{{ $movies->creater_at }}" disabled>
                                                     </div>
                                                 </div>
@@ -197,7 +197,7 @@
                                                 <div class="col-12">
                                                     <div class="form__group">
                                                         <label class="form__label" for="img">Ngày chạy</label>
-                                                        <input type="date" name="date_play" class="form__input"
+                                                        <input type="datetime" name="date_play" class="form__input"
                                                             value="{{ $movies->date_play }}" disabled>
                                                     </div>
                                                 </div>

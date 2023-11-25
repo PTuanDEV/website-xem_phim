@@ -233,7 +233,7 @@
                                                     <div class="form__group">
                                                         <label class="form__label" for="username">Năm phát hành</label>
                                                         <input id="date" type="number" name="rearelease_year"
-                                                            class="form__input" value="{{ $movies->rearelease_year }}">
+                                                            class="form__input" value="{{ $movies->rearelease_year }}"  min="1" max="{{ date('Y') }}">
                                                     </div>
                                                 </div>
 
@@ -241,7 +241,7 @@
                                                     <div class="form__group">
                                                         <label class="form__label" for="img">Thời lượng</label>
                                                         <input id="img" type="number" name="time"
-                                                            class="form__input" value="{{ $movies->time }}">
+                                                            class="form__input" value="{{ $movies->time }}"  min="1" >
                                                     </div>
                                                 </div>
 
@@ -256,11 +256,11 @@
                                                 <div class="col-12">
                                                     <div class="form__group">
                                                         <label class="form__label" for="img">Ngày chạy</label>
-                                                        <input type="date" name="" class="form__input"
+                                                        <input type="datetime" name="" class="form__input"
                                                             value="{{ $movies->creater_at }}" disabled>
                                                         <input type="hidden" name="creater"
                                                             value="{{ $movies->creater_at }}">
-                                                        <input id="img" type="date" name="date_play"
+                                                        <input id="img" type="datetime" name="date_play"
                                                             class="form__input" value="{{ $movies->date_play }}">
                                                     </div>
                                                 </div>

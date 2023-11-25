@@ -262,7 +262,7 @@ class MovieController extends BaseController
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errors = [];
-            $creater = date('Y-m-d');
+            $creater = date("Y-m-d H:i:s");
             if (empty($_POST['name_movie'])) {
                 $errors[] = "Bạn chưa nhập tên phim";
             }
@@ -325,7 +325,7 @@ class MovieController extends BaseController
             if (empty($_POST['date_play'])) {
                 $errors[] = "Bạn chưa chọn ngày chạy phát";
             } else {
-                if ($_POST['date_play'] < $creater) {
+                if ($_POST['date_play'] < date("Y-m-d")) {
                     $errors[] = "Ngày phát không thể trước ngày tạo được";
                 }
             }

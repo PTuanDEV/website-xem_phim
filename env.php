@@ -4,8 +4,8 @@ const DBCHARSET = "utf8";
 const DBNAME = "web_phim";
 const DBUSER = "root";
 const DBPASS = "";
-
 const BASE_URL = "/project_1/";
+date_default_timezone_set("Asia/Ho_Chi_Minh");
 function route($url)
 {
     return BASE_URL . $url;

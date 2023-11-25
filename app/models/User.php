@@ -77,6 +77,14 @@ class User extends BaseModel
     }
     // End user block
 
+    // Tìm tất cả tài khoản đang hoạt động
+    public function userAll()
+    {
+        $sql = "SELECT * FROM  $this->table where  status != 0 ORDER BY creater DESC LIMIT 5 ";
+        $this->setQuery($sql);
+        return $this->loadAllRows();
+    }
+
     // // Model chung
     // Quản trị thêm vào
     public function addAdmin($id_user, $fullname, $email, $phone, $username, $password, $img, $role, $money, $creater)

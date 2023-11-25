@@ -114,7 +114,7 @@ class CategoriesController extends BaseController
             if (empty($_POST['name_cate'])) {
                 $errors[] = "Bạn chưa nhập loại phim";
             }
-            $creater_at = date("Y-m-d");
+            $creater_at = date("Y-m-d H:i:s");
             if (count($errors) > 0) {
                 flash('errors', $errors, 'admin/categories/add');
             } else {

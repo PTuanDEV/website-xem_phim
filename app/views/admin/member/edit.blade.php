@@ -19,17 +19,24 @@
                                 <div class="row">
                                     <!-- details form -->
                                     <div class="col-12 col-lg-12">
-                                        <form action="{{ route('admin/categories/edit/' . $categorys->id_cate) }}"
+                                        <form action="{{ route('admin/member/edit/' . $members->id_list_bill) }}"
                                             method="post" class="form form--profile" enctype="multipart/form-data">
                                             <div class="row row--form">
                                                 <div class="col-12">
-                                                    <h4 class="form__title">Sửa loại phim </h4>
+                                                    <h4 class="form__title">Sửa gói hội viên </h4>
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="form__group">
-                                                        <label class="form__label" for="name_cate">Tên loại phim</label>
-                                                        <input id="name_cate" type="text" name="name_cate"
-                                                            class="form__input" value="{{ $categorys->name_cate }}">
+                                                        <label class="form__label" for="name_cate">Tên gói</label>
+                                                        <input id="name_cate" type="text" name="name_member"
+                                                            class="form__input" value="{{ $members->name_member }}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form__group">
+                                                        <label class="form__label" for="name_cate">Giá gói</label>
+                                                        <input id="name_cate" type="number" name="price"
+                                                            class="form__input" value="{{ $members->pricing_plan }}">
                                                     </div>
                                                 </div>
                                                 <div class="col-12">

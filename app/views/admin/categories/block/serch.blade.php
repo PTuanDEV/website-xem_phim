@@ -31,7 +31,7 @@
                             <!-- end filter sort -->
 
                             <!-- search -->
-                            <form action="{{ route('admin/categories/unblock/serch') }}" method="post"
+                            <form action="{{ route('admin/categories/block/serch') }}" method="post"
                                 class="main__title-form">
                                 <input type="text" name="i_serch" placeholder="Tìm tên ...">
                                 <button type="submit">

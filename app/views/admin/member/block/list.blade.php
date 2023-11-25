@@ -6,33 +6,15 @@
                 <!-- main title -->
                 <div class="col-12">
                     <div class="main__title">
-                        <h2>Danh mục</h2>
+                        <h2>Gói hội viên</h2>
 
                         <span class="main__title-stat">{{ $size }}</span>
 
                         <div class="main__title-wrap">
-                            <!-- filter sort -->
-                            {{-- <div class="filter" id="filter__sort">
-                                <span class="filter__item-label">Sắp sếp theo:</span>
 
-                                <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-sort"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <input type="button" value="Date created">
-                                    <span></span>
-                                </div>
-
-                                <ul class="filter__item-menu dropdown-menu scrollbar-dropdown"
-                                    aria-labelledby="filter-sort">
-                                    <li>Ngày tạo</li>
-                                    <li>Pricing plan</li>
-                                    <li>Status</li>
-                                </ul>
-                            </div> --}}
-                            <!-- end filter sort -->
 
                             <!-- search -->
-                            <form action="{{ route('admin/categories/block/serch') }}" method="post"
-                                class="main__title-form">
+                            <form action="{{ route('admin/member/block/serch') }}" method="post" class="main__title-form">
                                 <input type="text" name="i_serch" placeholder="Tìm tên ...">
                                 <button type="submit">
                                     <i class="icon ion-ios-search"></i>
@@ -40,7 +22,7 @@
                             </form>
                             <!-- end search -->
 
-                            <a href="{{ route('admin/categories/add') }}" class="main__title-link">add item</a>
+                            <a href="{{ route('admin/member/add') }}" class="main__title-link">add item</a>
                         </div>
 
                     </div>
@@ -54,25 +36,29 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Loại phim</th>
+                                    <th>Tên gói</th>
+                                    <th>Mức giá</th>
                                     <th>Trạng thái</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                @foreach ($categorys as $value_cate)
+                                @foreach ($members as $value_member)
                                     <tr>
                                         <td>
-                                            <div class="main__table-text">{{ $value_cate->id_cate }}</div>
+                                            <div class="main__table-text">{{ $value_member->id_list_bill }}</div>
                                         </td>
 
                                         <td>
-                                            <div class="main__table-text">{{ $value_cate->name_cate }}</div>
+                                            <div class="main__table-text">{{ $value_member->name_member }}</div>
+                                        </td>
+                                        <td>
+                                            <div class="main__table-text">{{ $value_member->pricing_plan }}</div>
                                         </td>
                                         <td>
                                             <div class="main__table-text">
-                                                @if ($value_cate->status == 1)
+                                                @if ($value_member->status == 1)
                                                     <div class="main__table-text--green">Đang hoạt động</div>
                                                 @else
                                                     <div class="main__table-text--red">Không hoạt động</div>
@@ -81,7 +67,7 @@
                                         </td>
                                         <td>
                                             <div class="main__table-btns">
-                                                <a href="{{ route('admin/categories/open/' . $value_cate->id_cate) }}"
+                                                <a href="{{ route('admin/member/open/' . $value_member->id_list_bill) }}"
                                                     class="main__table-btn main__table-btn--edit"
                                                     onclick="return confirm('Bạn muốn mở lại ?')">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -107,7 +93,7 @@
                         <ul class="paginator">
                             @if ($page > 1)
                                 <li class="paginator__item paginator__item--prev">
-                                    <a href="{{ route('admin/categories/block/' . $page - 1) }}"><i
+                                    <a href="{{ route('admin/member/block/' . $page - 1) }}"><i
                                             class="icon ion-ios-arrow-back"></i></a>
                                 </li>
                             @endif
@@ -115,7 +101,7 @@
                             </li>
                             @if ($page < $maxpage)
                                 <li class="paginator__item paginator__item--next">
-                                    <a href="{{ route('admin/categories/block/' . $page + 1) }}"><i
+                                    <a href="{{ route('admin/member/block/' . $page + 1) }}"><i
                                             class="icon ion-ios-arrow-forward"></i></a>
                                 </li>
                             @endif

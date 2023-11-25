@@ -178,7 +178,7 @@ class UserController extends BaseController
             if (empty($_POST['money'])) {
                 $errors[] = "Bạn chưa nhập số tiền";
             }
-            $creater = date('Y-m-d');
+            $creater = date("Y-m-d H:i:s");
             if (count($errors) > 0) {
                 flash('errors', $errors, 'admin/user/add');
             } else {

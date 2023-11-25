@@ -114,6 +114,7 @@ class Movie extends BaseModel
     }
     // End Browser Staff
 
+
     // Thêm vào mặc định
     public function add($name_movie, $name_trailer, $name_video, $img, $performer, $rearelease_year, $time, $country, $creater_at, $date_play, $describe, $id_cate, $id_user)
     {
@@ -136,6 +137,23 @@ class Movie extends BaseModel
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
+
+    // lấy danh sách mới nhất của trang thống kê 
+    public function getAllStat()
+    {
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  WHERE  m.status =2 AND c.status=1  order by viewer DESC limit 5";
+        $this->setQuery($sql);
+        return $this->loadAllRows();
+    }
+
+    // lấy danh sách trong tháng
+    public function getAllMonth($start,$end)
+    {
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  WHERE  m.status =2 AND c.status=1  AND  '".$start."' < `creater_at` < '".$end."' ";
+        $this->setQuery($sql);
+        return $this->loadAllRows();
+    }
+
 
     // lấy danh sách sắp ra mắt của trang chủ 
     public function getAllIndexNear()
