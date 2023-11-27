@@ -6,7 +6,7 @@
                 <!-- main title -->
                 <div class="col-12">
                     <div class="main__title">
-                        <h2>Video</h2>
+                        <h2>Video khóa</h2>
 
                         <span class="main__title-stat">{{ $size }}</span>
 

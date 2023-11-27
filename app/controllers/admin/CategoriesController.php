@@ -13,12 +13,11 @@ class CategoriesController extends BaseController
     {
         $this->category = new Category();
     }
-
     //  Unblock
     public function getAll()
     {
-        $usermax = $this->category->getAll();
-        $maxpage = count($usermax);
+        $catemax = $this->category->getAll();
+        $maxpage = count($catemax);
         $size = $maxpage;
         $per_page = 7;
         $page = 1;
@@ -35,8 +34,8 @@ class CategoriesController extends BaseController
     }
     public function getPage($page)
     {
-        $usermax = $this->category->getAll();
-        $maxpage = count($usermax);
+        $catemax = $this->category->getAll();
+        $maxpage = count($catemax);
         $size = $maxpage;
         $per_page = 7;
         $start = (($page - 1) * $per_page);
@@ -60,8 +59,8 @@ class CategoriesController extends BaseController
     // Block
     public function getBlock()
     {
-        $usermax = $this->category->getBlock();
-        $maxpage = count($usermax);
+        $catemax = $this->category->getBlock();
+        $maxpage = count($catemax);
         $size = $maxpage;
         $per_page = 7;
         $page = 1;
@@ -79,8 +78,8 @@ class CategoriesController extends BaseController
 
     public function getPageBlock($page)
     {
-        $usermax = $this->category->getBlock();
-        $maxpage = count($usermax);
+        $catemax = $this->category->getBlock();
+        $maxpage = count($catemax);
         $size = $maxpage;
         $per_page = 7;
         $start = (($page - 1) * $per_page);
@@ -101,7 +100,7 @@ class CategoriesController extends BaseController
         return $this->render('admin.categories.block.serch', compact('categorys'));
     }
     // End Block
-    
+
     public function add()
     {
         return $this->render('admin.categories.add');
@@ -162,7 +161,7 @@ class CategoriesController extends BaseController
             flash('success', 'Xóa thành công', 'admin/categories/unblock');
         }
     }
-    
+
 
     public function accept($id)
     {
@@ -178,8 +177,8 @@ class CategoriesController extends BaseController
         if ($result) {
             flash('success', 'Xóa thành công', 'admin/categories/unblock');
         }
-    } 
-    
+    }
+
     public function open($id)
     {
         $result = $this->category->updateStatus($id, 1);

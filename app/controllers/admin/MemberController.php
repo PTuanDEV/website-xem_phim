@@ -17,8 +17,8 @@ class MemberController extends BaseController
     //  Unblock
     public function getAll()
     {
-        $usermax = $this->member->getAll();
-        $maxpage = count($usermax);
+        $membermax = $this->member->getAll();
+        $maxpage = count($membermax);
         $size = $maxpage;
         $per_page = 7;
         $page = 1;
@@ -35,8 +35,8 @@ class MemberController extends BaseController
     }
     public function getPage($page)
     {
-        $usermax = $this->member->getAll();
-        $maxpage = count($usermax);
+        $membermax = $this->member->getAll();
+        $maxpage = count($membermax);
         $size = $maxpage;
         $per_page = 7;
         $start = (($page - 1) * $per_page);
@@ -60,8 +60,8 @@ class MemberController extends BaseController
     // Block
     public function getBlock()
     {
-        $usermax = $this->member->getBlock();
-        $maxpage = count($usermax);
+        $membermax = $this->member->getBlock();
+        $maxpage = count($membermax);
         $size = $maxpage;
         $per_page = 7;
         $page = 1;
@@ -79,8 +79,8 @@ class MemberController extends BaseController
 
     public function getPageBlock($page)
     {
-        $usermax = $this->member->getBlock();
-        $maxpage = count($usermax);
+        $membermax = $this->member->getBlock();
+        $maxpage = count($membermax);
         $size = $maxpage;
         $per_page = 7;
         $start = (($page - 1) * $per_page);
@@ -101,6 +101,52 @@ class MemberController extends BaseController
         return $this->render('admin.member.block.serch', compact('members'));
     }
     // End Block
+
+    // Member team
+    public function getTeam()
+    {
+        $today = date("Y-m-d H:i:s");
+        $teammax = $this->member->getTeam($today);
+        $maxpage = count($teammax);
+        $size = $maxpage;
+        $per_page = 7;
+        $page = 1;
+        $start = (($page - 1) * $per_page);
+
+        if ($maxpage % $per_page == 0) {
+            $maxpage = $maxpage / $per_page;
+        } else {
+            $maxpage = ceil($maxpage / $per_page);
+        }
+        $teams = $this->member->getPageTeam($today, $start, $per_page);
+
+        return $this->render('admin.member.team.list', compact('teams', 'size', 'maxpage', 'page'));
+    }
+    public function getPageTeam($page)
+    {
+        $today = date("Y-m-d H:i:s");
+        $teammax = $this->member->getTeam($today);
+        $maxpage = count($teammax);
+        $size = $maxpage;
+        $per_page = 7;
+        $start = (($page - 1) * $per_page);
+
+        if ($maxpage % $per_page == 0) {
+            $maxpage = $maxpage / $per_page;
+        } else {
+            $maxpage = ceil($maxpage / $per_page);
+        }
+        $teams = $this->member->getPageTeam($today, $start, $per_page);
+        return $this->render('admin.member.team.list', compact('teams', 'size', 'maxpage', 'page'));
+    }
+
+    public function getSerchTeam()
+    {
+        $today = date("Y-m-d H:i:s");
+        $teams = $this->member->getSerchTeam($today, $_POST['i_serch']);
+        return $this->render('admin.member.team.serch', compact('teams'));
+    }
+    // End Member team
 
     public function add()
     {

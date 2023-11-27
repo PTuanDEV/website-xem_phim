@@ -6,7 +6,7 @@
                 <!-- main title -->
                 <div class="col-12">
                     <div class="main__title">
-                        <h2>Users</h2>
+                        <h2>Tài khoản khóa</h2>
 
                         <span class="main__title-stat">{{ $size }}</span>
 

@@ -7,7 +7,8 @@ use App\Models\BaseModel;
 class Member extends BaseModel
 {
     protected $table = "list_bill";
-
+    protected $table2 = "bill";
+    protected $table3 = "user";
     // Unblock
     public function getAll()
     {
@@ -51,6 +52,30 @@ class Member extends BaseModel
         return $this->loadAllRows();
     }
     // End block 
+
+    // Block
+    public function getTeam($today)
+    {
+        $sql = "SELECT *, DATE_ADD(b.`date_buy`, INTERVAL 30 DAY) AS `dateend` FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,'" . $today . "',b.`date_buy`) < 30 and u.`status` =1 ";
+        $this->setQuery($sql);
+        return $this->loadAllRows();
+    }
+    // Lấy tất cả theo trang
+    public function getPageTeam($today, $start, $per_page)
+    {
+        $sql = "SELECT *, DATE_ADD(b.`date_buy`, INTERVAL 30 DAY) AS `dateend` FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,'" . $today . "',b.`date_buy`) < 30 and u.`status` = 1  LIMIT " . $start . ", " . $per_page;
+        $this->setQuery($sql);
+        return $this->loadAllRows();
+    }
+    // Lấy tất cả theo tên
+    public function getSerchTeam($today, $serch)
+    {
+        $sql = "SELECT * , DATE_ADD(b.`date_buy`, INTERVAL 30 DAY) AS `dateend` FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,'" . $today . "',b.`date_buy`) < 30 and u.`status` = 1 AND u.fullname LIKE '%" . $serch . "%'";
+        $this->setQuery($sql);
+        return $this->loadAllRows();
+    }
+    // End block 
+
 
     // Lấy một giá trị
     public function getOne($id)

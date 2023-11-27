@@ -6,23 +6,20 @@
                 <!-- main title -->
                 <div class="col-12">
                     <div class="main__title">
-                        <h2>Gói hội viên khóa</h2>
+                        <h2>Hội viên</h2>
 
                         <span class="main__title-stat">{{ $size }}</span>
 
                         <div class="main__title-wrap">
 
-
                             <!-- search -->
-                            <form action="{{ route('admin/member/block/serch') }}" method="post" class="main__title-form">
+                            <form action="{{ route('admin/member/team/serch') }}" method="post" class="main__title-form">
                                 <input type="text" name="i_serch" placeholder="Tìm tên ...">
                                 <button type="submit">
                                     <i class="icon ion-ios-search"></i>
                                 </button>
                             </form>
                             <!-- end search -->
-
-                            <a href="{{ route('admin/member/add') }}" class="main__title-link">add item</a>
                         </div>
 
                     </div>
@@ -36,48 +33,43 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Tài khoản</th>
                                     <th>Tên gói</th>
                                     <th>Mức giá</th>
-                                    <th>Trạng thái</th>
-                                    <th>Hành động</th>
+                                    <th>Ngày mua</th>
+                                    <th>Ngày hết hạn</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                @foreach ($members as $value_member)
+                                @foreach ($teams as $value_team)
                                     <tr>
                                         <td>
-                                            <div class="main__table-text">{{ $value_member->id_list_bill }}</div>
-                                        </td>
-
-                                        <td>
-                                            <div class="main__table-text">{{ $value_member->name_member }}</div>
+                                            <div class="main__table-text">{{ $value_team->id_bill }}</div>
                                         </td>
                                         <td>
-                                            <div class="main__table-text">{{ $value_member->pricing_plan }}</div>
-                                        </td>
-                                        <td>
-                                            <div class="main__table-text">
-                                                @if ($value_member->status == 1)
-                                                    <div class="main__table-text--green">Đang hoạt động</div>
-                                                @else
-                                                    <div class="main__table-text--red">Không hoạt động</div>
-                                                @endif
+                                            <div class="main__user">
+                                                <div class="main__avatar">
+                                                    <img src="{{ BASE_URL . 'public/img/img_upload/' . $value_team->img }}"
+                                                        alt="">
+                                                </div>
+                                                <div class="main__meta">
+                                                    <h3>{{ $value_team->fullname }}</h3>
+                                                    <span>{{ $value_team->email }}</span>
+                                                </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="main__table-btns">
-                                                <a href="{{ route('admin/member/open/' . $value_member->id_list_bill) }}"
-                                                    class="main__table-btn main__table-btn--edit"
-                                                    onclick="return confirm('Bạn muốn mở lại ?')">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16"
-                                                        style="color: green">
-                                                        <path
-                                                            d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-                                                    </svg>
-                                                </a>
-                                            </div>
+                                            <div class="main__table-text">{{ $value_team->name_member }}</div>
+                                        </td>
+                                        <td>
+                                            <div class="main__table-text">{{ $value_team->price }}</div>
+                                        </td>
+                                        <td>
+                                            <div class="main__table-text">{{ $value_team->date_buy }}</div>
+                                        </td>
+                                        <td>
+                                            <div class="main__table-text--red">{{ $value_team->dateend }}</div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -93,7 +85,7 @@
                         <ul class="paginator">
                             @if ($page > 1)
                                 <li class="paginator__item paginator__item--prev">
-                                    <a href="{{ route('admin/member/block/' . $page - 1) }}"><i
+                                    <a href="{{ route('admin/member/team/' . $page - 1) }}"><i
                                             class="icon ion-ios-arrow-back"></i></a>
                                 </li>
                             @endif
@@ -101,7 +93,7 @@
                             </li>
                             @if ($page < $maxpage)
                                 <li class="paginator__item paginator__item--next">
-                                    <a href="{{ route('admin/member/block/' . $page + 1) }}"><i
+                                    <a href="{{ route('admin/member/team/' . $page + 1) }}"><i
                                             class="icon ion-ios-arrow-forward"></i></a>
                                 </li>
                             @endif

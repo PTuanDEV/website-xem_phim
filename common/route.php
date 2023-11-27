@@ -80,7 +80,6 @@ if (isset($_SESSION['login']) && $_SESSION['login']->role == 1) {
             $categories->post('edit/{id}', [App\Controllers\Admin\CategoriesController::class, 'editPost']);
         });
 
-
         // Router video
         $collector->group(array('prefix' => 'movies'), function (RouteCollector $movies) {
             // router movies unblock 
@@ -114,13 +113,19 @@ if (isset($_SESSION['login']) && $_SESSION['login']->role == 1) {
 
         // Router member
         $collector->group(array('prefix' => 'member'), function (RouteCollector $member) {
-            // router movies unblock 
+            // router member team 
+            $member->group(array('prefix' => 'team'), function (RouteCollector $team) {
+                $team->get('/', [App\Controllers\Admin\MemberController::class, 'getTeam']);
+                $team->get('/{page}', [App\Controllers\Admin\MemberController::class, 'getPageTeam']);
+                $team->post('serch', [App\Controllers\Admin\MemberController::class, 'getSerchTeam']);
+            });
+            // router member unblock 
             $member->group(array('prefix' => 'unblock'), function (RouteCollector $unblock) {
                 $unblock->get('/', [App\Controllers\Admin\MemberController::class, 'getAll']);
                 $unblock->get('/{page}', [App\Controllers\Admin\MemberController::class, 'getPage']);
                 $unblock->post('serch', [App\Controllers\Admin\MemberController::class, 'getSerch']);
             });
-            // router movies block 
+            // router member block 
             $member->group(array('prefix' => 'block'), function (RouteCollector $block) {
                 $block->get('/', [App\Controllers\Admin\MemberController::class, 'getBlock']);
                 $block->get('/{page}', [App\Controllers\Admin\MemberController::class, 'getPageBlock']);

@@ -52,11 +52,7 @@
 
                 <!-- player -->
                 <div class="col-12 col-xl-6">
-@if ()
-    
-@else
-    
-@endif
+
                     <iframe src="{{ $movies->name_video }}" width="640" height="440">
                     </iframe>
 

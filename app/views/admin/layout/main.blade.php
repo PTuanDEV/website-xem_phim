@@ -154,10 +154,10 @@
                             </svg>
                             <span>Quản lí gói hội viên</span> <i class="icon ion-md-arrow-dropdown"></i></a>
                         <ul class="collapse sidebar__menu" id="collapseMenu4">
+                            <li><a href="{{ route('admin/member/team') }}">Xem hội viên</a></li>
                             <li><a href="{{ route('admin/member/unblock') }}">Xem gói hội viên</a></li>
-                            @if (isset($_SESSION['login']) && $_SESSION['login']->role == 1)
-                                <li><a href="{{ route('admin/member/block') }}">Xem gói hội viên khóa</a></li>
-                            @endif
+                            <li><a href="{{ route('admin/member/block') }}">Xem gói hội viên khóa</a></li>
+
 
                         </ul>
                     </li>
