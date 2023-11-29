@@ -15,7 +15,7 @@
 
                             <!-- search -->
                             <form action="{{ route('admin/user/block/serch') }}" method="post" class="main__title-form">
-                                <input type="text" name="i_serch" placeholder="Tìm tên ...">
+                                <input type="text" name="i_serch" placeholder="Tìm tên đăng nhâp ...">
                                 <button type="submit">
                                     <i class="icon ion-ios-search"></i>
                                 </button>

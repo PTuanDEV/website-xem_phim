@@ -145,8 +145,23 @@ if (isset($_SESSION['login']) && $_SESSION['login']->role == 1) {
             $bill->get('/{page}', [App\Controllers\Admin\BillController::class, 'getPage']);
             $bill->post('serch', [App\Controllers\Admin\BillController::class, 'getSerch']);
         });
-
-        
+        // Router comment
+        $collector->group(array('prefix' => 'comment'), function (RouteCollector $comment) {
+            // router member unblock 
+            $comment->group(array('prefix' => 'unblock'), function (RouteCollector $unblock) {
+                $unblock->get('/', [App\Controllers\Admin\CommentController::class, 'getAll']);
+                $unblock->get('/{page}', [App\Controllers\Admin\CommentController::class, 'getPage']);
+                $unblock->post('serch', [App\Controllers\Admin\CommentController::class, 'getSerch']);
+            });
+            // router member block 
+            $comment->group(array('prefix' => 'block'), function (RouteCollector $block) {
+                $block->get('/', [App\Controllers\Admin\CommentController::class, 'getBlock']);
+                $block->get('/{page}', [App\Controllers\Admin\CommentController::class, 'getPageBlock']);
+                $block->post('serch', [App\Controllers\Admin\CommentController::class, 'getSerchBlock']);
+            });
+            $comment->get('delete/{id}', [App\Controllers\Admin\CommentController::class, 'delete']);
+            $comment->get('open/{id}', [App\Controllers\Admin\CommentController::class, 'open']);
+        });
     });
 } else {
     // Route Nhân viên
@@ -178,17 +193,28 @@ if (isset($_SESSION['login']) && $_SESSION['login']->role == 1) {
                     $browser->get('/{page}', [App\Controllers\Admin\MovieController::class, 'getPageBrowserStaff']);
                     $browser->post('serch', [App\Controllers\Admin\MovieController::class, 'getSerchBrowserStaff']);
                 });
-                // router categories block 
-                // $movies->group(array('prefix' => 'block'), function (RouteCollector $block) {
-                //     $block->get('/', [App\Controllers\Admin\MovieController::class, 'getBlock']);
-                //     $block->get('/{page}', [App\Controllers\Admin\MovieController::class, 'getPageBlock']);
-                //     $block->post('serch', [App\Controllers\Admin\MovieController::class, 'getSerchBlock']);
-                // });
                 $movies->get('detail/{id}', [App\Controllers\Admin\MovieController::class, 'detail']);
                 $movies->get('add', [App\Controllers\Admin\MovieController::class, 'add']);
                 $movies->post('add', [App\Controllers\Admin\MovieController::class, 'postAdd']);
                 $movies->get('edit/{id}', [App\Controllers\Admin\MovieController::class, 'edit']);
                 $movies->post('edit/{id}', [App\Controllers\Admin\MovieController::class, 'editPost']);
+            });
+            // Router comment
+            $collector->group(array('prefix' => 'comment'), function (RouteCollector $comment) {
+                // router member unblock 
+                $comment->group(array('prefix' => 'unblock'), function (RouteCollector $unblock) {
+                    $unblock->get('/', [App\Controllers\Admin\CommentController::class, 'getAll']);
+                    $unblock->get('/{page}', [App\Controllers\Admin\CommentController::class, 'getPage']);
+                    $unblock->post('serch', [App\Controllers\Admin\CommentController::class, 'getSerch']);
+                });
+                // router member block 
+                $comment->group(array('prefix' => 'block'), function (RouteCollector $block) {
+                    $block->get('/', [App\Controllers\Admin\CommentController::class, 'getBlock']);
+                    $block->get('/{page}', [App\Controllers\Admin\CommentController::class, 'getPageBlock']);
+                    $block->post('serch', [App\Controllers\Admin\CommentController::class, 'getSerchBlock']);
+                });
+                $comment->get('delete/{id}', [App\Controllers\Admin\CommentController::class, 'delete']);
+                $comment->get('open/{id}', [App\Controllers\Admin\CommentController::class, 'open']);
             });
         });
     }
@@ -205,7 +231,7 @@ $router->get('pay/{id}', [App\Controllers\User\HomeController::class, 'addVnpay'
 $router->get('buymember', [App\Controllers\User\HomeController::class, 'buyMember']);
 $router->post('buymember', [App\Controllers\User\HomeController::class, 'buyTeam']);
 
-
+$router->post('comment/{id}', [App\Controllers\User\HomeController::class, 'comment']);
 
 $router->get('signin', [App\Controllers\User\FormController::class, 'login']);
 $router->post('signin', [App\Controllers\User\FormController::class, 'checkLogin']);

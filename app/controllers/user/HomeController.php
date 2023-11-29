@@ -4,6 +4,8 @@ namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
 use App\Models\Category;
+use App\Models\Comment;
+use App\Models\History;
 use App\Models\Member;
 use App\Models\Movie;
 use App\Models\User;
@@ -15,12 +17,16 @@ class HomeController extends BaseController
     protected $category;
     protected $member;
     protected $user;
+    protected $comment;
+    protected $history;
     public function __construct()
     {
         $this->movie = new Movie();
         $this->category = new Category();
         $this->member = new Member();
         $this->user = new User();
+        $this->comment = new Comment();
+        $this->history = new History();
     }
 
     public function home()
@@ -64,6 +70,7 @@ class HomeController extends BaseController
     }
     public function details($id)
     {
+        $today = date("Y-m-d H:i:s");
         $movies = $this->movie->detail($id);
         $categorys = $this->category->getAll();
         $video = ['mp4'];
@@ -79,10 +86,13 @@ class HomeController extends BaseController
         } else {
             $videos = "link";
         }
-
         $relus = $this->movie->updateSee($id, ($movies->viewer + 1));
-        if ($movies && $relus) {
-            return $this->render('user.home.detail', compact('movies', 'categorys', 'trailer', 'videos'));
+        if (isset($_SESSION['login']) && isset($_SESSION['member'])) {
+            $rlt = $this->history->add($_SESSION['login']->id_user, $movies->id_movie, $today);
+        }
+        $comments = $this->comment->getAll($movies->id_movie);
+        if ($relus) {
+            return $this->render('user.home.detail', compact('movies', 'categorys', 'trailer', 'videos', 'comments'));
         }
     }
     public function updateMoney()
@@ -209,7 +219,7 @@ class HomeController extends BaseController
                             flash('errors', $error, 'buymember');
                         }
                     } else {
-                        $rl = $this->member->addBill($today,$pricing_plan, $_SESSION['login']->id_user, $listbill->id_list_bill);
+                        $rl = $this->member->addBill($today, $pricing_plan, $_SESSION['login']->id_user, $listbill->id_list_bill);
                         if ($rl) {
                             $_SESSION['member'] = $this->member->getOneTeam($_SESSION['login']->id_user, $today);
                             flash('success', 'Mua thành công', '/');
@@ -218,6 +228,21 @@ class HomeController extends BaseController
                             flash('errors', $error, 'buymember');
                         }
                     }
+                }
+            }
+        }
+    }
+    public function comment($id)
+    {
+        if (isset($_POST['send'])) {
+            $today = date("Y-m-d H:i:s");
+            if (empty($_POST['comment'])) {
+                flash('success', 'Mua thành công', 'details/' . $id);
+            } else {
+                $comment = $_POST['comment'];
+                $rlt = $this->comment->add($comment, $today, $_SESSION['login']->id_user, $id);
+                if ($rlt) {
+                    flash('success', 'Mua thành công', 'details/' . $id);
                 }
             }
         }

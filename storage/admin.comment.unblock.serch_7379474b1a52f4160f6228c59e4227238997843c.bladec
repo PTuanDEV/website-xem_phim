@@ -1,0 +1,109 @@
+<?php $_shouldextend[1]=1; ?>
+<?php $this->startSection('main-content'); ?>
+ <main class="main">
+ <div class="container-fluid">
+ <div class="row">
+ <!-- main title -->
+ <div class="col-12">
+ <div class="main__title">
+ <h2>Bình luận</h2>
+
+ <span class="main__title-stat"><?php echo \htmlentities($size??'', ENT_QUOTES, 'UTF-8', false); ?></span>
+
+ <div class="main__title-wrap">
+ <form action="<?php echo \htmlentities(route('admin/comment/unblock/serch')??'', ENT_QUOTES, 'UTF-8', false); ?>" method="post" class="main__title-form">
+ <input type="text" name="i_serch" placeholder="Tìm tên phim...">
+ <button type="submit">
+ <i class="icon ion-ios-search"></i>
+ </button>
+ </form>
+ </div>
+ </div>
+ </div>
+ <!-- end main title -->
+
+ <!-- users -->
+ <div class="col-12">
+ <div class="main__table-wrap">
+ <table class="main__table">
+ <thead>
+ <tr>
+ <th>ID</th>
+ <th>Tài khoản</th>
+ <th>Video</th>
+ <th>Bình luận</th>
+ <th>Ngày bình luận</th>
+ <th>Trạng thái</th>
+ <?php if(isset($_SESSION['login']) && $_SESSION['login']->role == 1): ?>
+ <th>Hành động</th>
+ <?php endif; ?>
+ </tr>
+ </thead>
+
+ <tbody>
+ <?php $__currentLoopData = $comments; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $value_com): $loop = $this->incrementLoopIndices();  ?>
+ <tr>
+ <td>
+ <div class="main__table-text"><?php echo \htmlentities($value_com->id_com??'', ENT_QUOTES, 'UTF-8', false); ?></div>
+ </td>
+ <td>
+ <div class="main__user">
+ <div class="main__avatar">
+ <img src="<?php echo \htmlentities(BASE_URL . 'public/img/img_upload/' . $value_com->logo??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ alt="">
+ </div>
+ <div class="main__meta">
+ <h3><?php echo \htmlentities($value_com->fullname??'', ENT_QUOTES, 'UTF-8', false); ?></h3>
+ <span><?php echo \htmlentities($value_com->email??'', ENT_QUOTES, 'UTF-8', false); ?></span>
+ </div>
+ </div>
+ </td>
+ <td>
+ <div class="main__user">
+ <div class="main__avatar">
+ <img src="<?php echo \htmlentities(BASE_URL . 'public/img/img_upload/' . $value_com->img_movie??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ alt="">
+ </div>
+ <div class="main__meta">
+ <h3><?php echo \htmlentities($value_com->name_movie??'', ENT_QUOTES, 'UTF-8', false); ?></h3>
+ </div>
+ </div>
+ </td>
+ <td>
+ <div class="main__table-text"><?php echo \htmlentities($value_com->comment??'', ENT_QUOTES, 'UTF-8', false); ?></div>
+ </td>
+ <td>
+ <div class="main__table-text"><?php echo \htmlentities($value_com->date_comment??'', ENT_QUOTES, 'UTF-8', false); ?></div>
+ </td>
+ <td>
+ <div class="main__table-text">
+ <?php if($value_com->status_c == 1): ?>
+ <div class="main__table-text--green">Đang hoạt động</div>
+ <?php else: ?>
+ <div class="main__table-text--red">Không hoạt động</div>
+ <?php endif; ?>
+ </div>
+ </td>
+ <td>
+ <div class="main__table-btns">
+ <a href="<?php echo \htmlentities(route('admin/comment/delete/' . $value_com->id_com)??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ class="main__table-btn main__table-btn--delete"
+ onclick="return confirm('Bạn muốn xóa ?')">
+ <i class="icon ion-ios-trash"></i>
+ </a>
+ </div>
+ </td>
+ </tr>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </tbody>
+ </table>
+ </div>
+ </div>
+ <!-- end users -->
+ </div>
+ </div>
+ </main>
+<?php $this->stopSection(); ?>
+
+<?php if (isset($_shouldextend[1])) { echo $this->runChild('admin.layout.main'); } ?>
