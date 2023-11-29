@@ -80,6 +80,7 @@
  <label class="form__label" for="select">Quyền truy cập</label>
  <select name="role" id="select" class="form__select">
  <option value="0">Người dùng</option>
+ <option value="2">Nhân viên</option>
  <option value="1">admin</option>
  </select>
  </div>

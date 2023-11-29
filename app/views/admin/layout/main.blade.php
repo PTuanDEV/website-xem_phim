@@ -165,7 +165,7 @@
 
                 @if (isset($_SESSION['login']) && $_SESSION['login']->role == 1)
                     <li class="sidebar__nav-item">
-                        <a href="{{ route('admin') }}" class="sidebar__nav-link">
+                        <a href="{{ route('admin/bill/') }}" class="sidebar__nav-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                 fill="currentColor" class="bi bi-receipt-cutoff" viewBox="0 0 16 16">
                                 <path

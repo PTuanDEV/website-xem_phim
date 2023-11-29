@@ -9,6 +9,7 @@ class Member extends BaseModel
     protected $table = "list_bill";
     protected $table2 = "bill";
     protected $table3 = "user";
+    protected $table4 = "vnpay";
     // Unblock
     public function getAll()
     {
@@ -56,27 +57,77 @@ class Member extends BaseModel
     // Block
     public function getTeam($today)
     {
-        $sql = "SELECT *, DATE_ADD(b.`date_buy`, INTERVAL 30 DAY) AS `dateend` FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,'" . $today . "',b.`date_buy`) < 30 and u.`status` =1 ";
+        $sql = "SELECT *, DATE_ADD(b.`date_buy`, INTERVAL 30 DAY) AS `dateend` FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_list_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,b.`date_buy`,'" . $today . "') < 30 and u.`status` =1 ";
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
     // Lấy tất cả theo trang
     public function getPageTeam($today, $start, $per_page)
     {
-        $sql = "SELECT *, DATE_ADD(b.`date_buy`, INTERVAL 30 DAY) AS `dateend` FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,'" . $today . "',b.`date_buy`) < 30 and u.`status` = 1  LIMIT " . $start . ", " . $per_page;
+        $sql = "SELECT *, DATE_ADD(b.`date_buy`, INTERVAL 30 DAY) AS `dateend` FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_list_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,b.`date_buy`,'" . $today . "') < 30 and u.`status` = 1  LIMIT " . $start . ", " . $per_page;
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
     // Lấy tất cả theo tên
     public function getSerchTeam($today, $serch)
     {
-        $sql = "SELECT * , DATE_ADD(b.`date_buy`, INTERVAL 30 DAY) AS `dateend` FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,'" . $today . "',b.`date_buy`) < 30 and u.`status` = 1 AND u.fullname LIKE '%" . $serch . "%'";
+        $sql = "SELECT * , DATE_ADD(b.`date_buy`, INTERVAL 30 DAY) AS `dateend` FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_list_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,b.`date_buy`,'" . $today . "') < 30 and u.`status` = 1 AND u.fullname LIKE '%" . $serch . "%'";
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
+    // Lấy một team
+    public function getOneTeam($id, $today)
+    {
+        $sql = "SELECT * FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_list_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,b.`date_buy`,'" . $today . "') < 30 and u.`status` = 1 AND b.`id_user`=" . $id;
+        $this->setQuery($sql);
+        return $this->loadRow();
+    }
+    // Lấy một team
+    public function getOneTeamDay($id)
+    {
+        $sql = "SELECT * FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_list_bill`=l.`id_list_bill` WHERE u.`status` = 1 AND b.`id_user`=" . $id;
+        $this->setQuery($sql);
+        return $this->loadRow();
+    }
     // End block 
 
+    // Thêm vào vnpay
+    public function addVnpay($vnp_Amount, $vnp_BankCode, $vnp_BankTranNo, $vnp_CardType, $vnp_OrderInfo, $vnp_PayDate, $vnp_TmnCode, $vnp_TransactionNo, $vnp_TxnRef, $vnp_SecureHash, $id)
+    {
+        $sql = "INSERT INTO $this->table4 (`vnp_Amount`, `vnp_BankCode`, `vnp_BankTranNo`, `vnp_CardType`, `vnp_OrderInfo`, `vnp_PayDate`, `vnp_TmnCode`, `vnp_TransactionNo`, `vnp_TxnRef`, `vnp_SecureHash`, `id_user`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $this->setQuery($sql);
+        return $this->execute([$vnp_Amount, $vnp_BankCode, $vnp_BankTranNo, $vnp_CardType, $vnp_OrderInfo, $vnp_PayDate, $vnp_TmnCode, $vnp_TransactionNo, $vnp_TxnRef, $vnp_SecureHash, $id]);
+    }
 
+    // Truy vấn theo tên gói
+    public function getListBill($name)
+    { //
+        $sql = "SELECT * FROM  $this->table WHERE `name_member`=?";
+        $this->setQuery($sql);
+        return $this->loadRow([$name]);
+    }
+    // Truy vấn theo tên gói có id
+    public function getListBillId($id,$name)
+    { //
+        $sql = "SELECT * FROM  $this->table WHERE `name_member`=? and `id_list_bill`<> ?";
+        $this->setQuery($sql);
+        return $this->loadRow([$name,$id]);
+    }
+    // Thêm vào bill
+    public function addBill($date_buy, $price, $id_user, $id_list_bill)
+    { //
+        $sql = "INSERT INTO $this->table2 (`date_buy`,`price`, `id_user`, `id_list_bill`) VALUES ( ?, ?, ?, ?)";
+        $this->setQuery($sql);
+        return $this->execute([$date_buy, $price, $id_user, $id_list_bill]);
+    }
+
+    // Thêm vào bill
+    public function updateBill($date_buy, $price, $id_list_bill, $id_bill, $id_user)
+    { //UPDATE `web_phim`.`bill` SET `date_buy`='2023-08-28 01:12:09', `price`='1201', `id_list_bill`='2' WHERE  `id_bill`=4;
+        $sql = "UPDATE $this->table2 SET `date_buy`=?, `price`=?, `id_list_bill`=? WHERE  `id_bill`=? and `id_user`=? ";
+        $this->setQuery($sql);
+        return $this->execute([$date_buy, $price, $id_list_bill, $id_bill, $id_user]);
+    }
     // Lấy một giá trị
     public function getOne($id)
     {

@@ -156,12 +156,27 @@ class UserController extends BaseController
             }
             if (empty($_POST['email'])) {
                 $errors[] = "Bạn chưa nhập email";
+            } else {
+                $email = $this->user->getEmail($_POST['email']);
+                if ($email) {
+                    $errors[] = "Email đã tồn tại";
+                }
             }
             if (empty($_POST['phone'])) {
                 $errors[] = "Bạn chưa nhập số điện thoại";
+            } else {
+                $phone = $this->user->getPhone($_POST['phone']);
+                if ($phone) {
+                    $errors[] = "Số điện thoại đã tồn tại";
+                }
             }
             if (empty($_POST['username'])) {
                 $errors[] = "Bạn chưa nhập tên đăng nhập";
+            }else{
+                $username = $this->user->getUserAll($_POST['username']);
+                if ($username) {
+                    $errors[] = "Đã tồn tại tên đăng nhập";
+                }
             }
             if (empty($_POST['password'])) {
                 $errors[] = "Bạn chưa nhập mật khẩu";

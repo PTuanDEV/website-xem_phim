@@ -114,22 +114,25 @@ class Movie extends BaseModel
     }
     // End Browser Staff
 
-
-    // Thêm vào mặc định
-    public function add($name_movie, $name_trailer, $name_video, $img, $performer, $rearelease_year, $time, $country, $creater_at, $date_play, $describe, $id_cate, $id_user)
+    //Trang thống kê
+    // lấy danh sách 5 phim mới nhất 
+    public function getAllStat()
     {
-        $sql = "INSERT INTO $this->table (`name_movie`, `name_trailer`,`name_video`, `img`, `performer`, `rearelease_year`, `time`, `country`, `creater_at`, `date_play`, `describe`, `id_cate`,`id_user`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  WHERE  m.status =2 AND c.status=1  order by viewer DESC limit 5";
         $this->setQuery($sql);
-        return $this->execute([$name_movie, $name_trailer, $name_video, $img, $performer, $rearelease_year, $time, $country, $creater_at, $date_play, $describe, $id_cate, $id_user]);
+        return $this->loadAllRows();
     }
-    public function edit($id_movie, $name_movie, $name_trailer, $name_video, $img, $performer, $rearelease_year, $time, $country, $date_play, $describe, $cate)
+    // lấy danh sách phim mới trong tháng 
+    public function getAllMonth($start, $end)
     {
-        $sql = "UPDATE $this->table set  `name_movie`=?, `name_trailer`=?, `name_video`=?, `img`=?,  `performer`=?, `rearelease_year`=?, `time`=?, `country`=?, `date_play`=?, `describe`=?, `id_cate`=?  WHERE `id_movie`=? ";
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  WHERE  m.status =2 AND c.status=1  AND  '" . $start . "' < `creater_at` < '" . $end . "' ";
         $this->setQuery($sql);
-        return $this->execute([$name_movie, $name_trailer, $name_video, $img, $performer, $rearelease_year, $time, $country, $date_play, $describe, $cate, $id_movie]);
+        return $this->loadAllRows();
     }
+    //End trang thống kê
 
 
+    // Trang Người dùng
     // lấy danh sách mới nhất của trang chủ 
     public function getAllIndexNew()
     {
@@ -137,24 +140,6 @@ class Movie extends BaseModel
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
-
-    // lấy danh sách mới nhất của trang thống kê 
-    public function getAllStat()
-    {
-        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  WHERE  m.status =2 AND c.status=1  order by viewer DESC limit 5";
-        $this->setQuery($sql);
-        return $this->loadAllRows();
-    }
-
-    // lấy danh sách trong tháng
-    public function getAllMonth($start,$end)
-    {
-        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  WHERE  m.status =2 AND c.status=1  AND  '".$start."' < `creater_at` < '".$end."' ";
-        $this->setQuery($sql);
-        return $this->loadAllRows();
-    }
-
-
     // lấy danh sách sắp ra mắt của trang chủ 
     public function getAllIndexNear()
     {
@@ -178,7 +163,6 @@ class Movie extends BaseModel
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
-
     // lấy danh sách lượt xem của trang sản phẩm
     public function getAllSee()
     {
@@ -186,13 +170,35 @@ class Movie extends BaseModel
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
-
     // Lấy sản phẩm theo loại
     public function getAllId($id)
     {
         $sql = "SELECT * FROM $this->table WHERE  `status` =2 AND `id_cate`=?  order by `creater_at` DESC";
         $this->setQuery($sql);
         return $this->loadAllRows([$id]);
+    }
+    // Tìm kiếm theo tên
+    public function getSerchHome($serch)
+    {
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate WHERE m.status =2 AND c.status=1 and name_movie LIKE '%$serch%' order by creater_at desc";
+        $this->setQuery($sql);
+        return $this->loadAllRows();
+    }
+    // End trang Người dùng
+
+    // Lấy một giá trị
+    public function getName($name)
+    {
+        $sql = "SELECT * FROM $this->table WHERE `name_movie`=?";
+        $this->setQuery($sql);
+        return $this->loadRow([$name]);
+    }
+    // Lấy một giá trị
+    public function getNameID($id, $name)
+    {
+        $sql = "SELECT * FROM $this->table WHERE  `name_movie`=? AND `id_movie`<> ? ";
+        $this->setQuery($sql);
+        return $this->loadRow([$name, $id]);
     }
 
     // Lấy một giá trị
@@ -202,11 +208,26 @@ class Movie extends BaseModel
         $this->setQuery($sql);
         return $this->loadRow([$id]);
     }
+    //Xem chi tiết
     public function detail($id)
     {
         $sql = "SELECT * ,m.status as'ttsp' FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  WHERE  m.id_movie=?  ";
         $this->setQuery($sql);
         return $this->loadRow([$id]);
+    }
+    // Thêm vào mặc định
+    public function add($name_movie, $name_trailer, $name_video, $img, $performer, $rearelease_year, $time, $country, $creater_at, $date_play, $describe, $id_cate, $id_user)
+    {
+        $sql = "INSERT INTO $this->table (`name_movie`, `name_trailer`,`name_video`, `img`, `performer`, `rearelease_year`, `time`, `country`, `creater_at`, `date_play`, `describe`, `id_cate`,`id_user`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $this->setQuery($sql);
+        return $this->execute([$name_movie, $name_trailer, $name_video, $img, $performer, $rearelease_year, $time, $country, $creater_at, $date_play, $describe, $id_cate, $id_user]);
+    }
+
+    public function edit($id_movie, $name_movie, $name_trailer, $name_video, $img, $performer, $rearelease_year, $time, $country, $date_play, $describe, $cate)
+    {
+        $sql = "UPDATE $this->table set  `name_movie`=?, `name_trailer`=?, `name_video`=?, `img`=?,  `performer`=?, `rearelease_year`=?, `time`=?, `country`=?, `date_play`=?, `describe`=?, `id_cate`=?  WHERE `id_movie`=? ";
+        $this->setQuery($sql);
+        return $this->execute([$name_movie, $name_trailer, $name_video, $img, $performer, $rearelease_year, $time, $country, $date_play, $describe, $cate, $id_movie]);
     }
     // Cập nhật trạng thái
     public function updateStatus($id, $status)
@@ -221,12 +242,5 @@ class Movie extends BaseModel
         $sql = "UPDATE $this->table set viewer=?  WHERE id_movie=?";
         $this->setQuery($sql);
         return $this->execute([$viewer, $id]);
-    }
-    // Serch home
-    public function getSerchHome($serch)
-    {
-        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate WHERE m.status =2 AND c.status=1 and name_movie LIKE '%$serch%' order by creater_at desc";
-        $this->setQuery($sql);
-        return $this->loadAllRows();
     }
 }

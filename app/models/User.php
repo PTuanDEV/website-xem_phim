@@ -7,6 +7,7 @@ use App\Models\BaseModel;
 class User extends BaseModel
 {
     protected $table = "user";
+    protected $table2 = "bill";
 
     // User admin
     public function getAdmin()
@@ -96,23 +97,38 @@ class User extends BaseModel
     // Tìm kiếm theo tên đăng nhập
     public function getUser($username)
     {
-        $sql = "SELECT * FROM  $this->table where  status != 0 and `username` = ? ";
+        $sql = "SELECT * FROM  $this->table u  where  u.`status` != 0 and u.`username` = ? ";
         $this->setQuery($sql);
         return $this->loadRow([$username]);
     }
     // Tìm kiếm theo email
     public function getEmail($email)
     {
-        $sql = "SELECT * FROM  $this->table where  status != 0 and `email` = ? ";
+        $sql = "SELECT * FROM  $this->table where `email` = ? ";
         $this->setQuery($sql);
         return $this->loadRow([$email]);
     }
     // Tìm kiếm theo so dien thoai
     public function getPhone($phone)
     {
-        $sql = "SELECT * FROM  $this->table where  status != 0 and `phone` = ? ";
+        $sql = "SELECT * FROM  $this->table where `phone` = ? ";
         $this->setQuery($sql);
         return $this->loadRow([$phone]);
+    }
+    // Tìm kiếm theo tên đăng nhập
+    public function getUserAll($username)
+    {
+        $sql = "SELECT * FROM  $this->table   where  `username` = ? ";
+        $this->setQuery($sql);
+        return $this->loadRow([$username]);
+    }
+
+    // Kiểm tra xem tài khoản đã mua gói 
+    public function getMember($id, $today)
+    {
+        $sql = "SELECT * from bill WHERE `id_user`=" . $id . " and DATE_ADD(`date_buy`, INTERVAL 30 DAY) > '" . $today . "'";
+        $this->setQuery($sql);
+        return $this->loadRow();
     }
     // Người dùng tạo tài khoản
     public function add($fullname, $email, $phone, $username, $password, $creater)
@@ -132,7 +148,7 @@ class User extends BaseModel
     // Cập nhật tiền tài khoản
     public function updateMoney($id_user, $money)
     {
-        $sql = "UPDATE $this->table set money=?  WHERE id_user=?";
+        $sql = "UPDATE $this->table set `money`=?  WHERE `id_user`=?";
         $this->setQuery($sql);
         return $this->execute([$money, $id_user]);
     }

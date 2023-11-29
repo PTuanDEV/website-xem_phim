@@ -52,6 +52,21 @@ class Category extends BaseModel
     }
     // End block 
 
+    // Lấy tất cả theo tên
+    public function getName($name_cate)
+    {
+        $sql = "SELECT * FROM  $this->table  WHERE name_cate = '$name_cate' ";
+        $this->setQuery($sql);
+        return $this->loadAllRows();
+    }
+
+    // Lấy tất cả theo tên có id
+    public function getNameId($id, $name_cate)
+    {
+        $sql = "SELECT * FROM  $this->table  WHERE name_cate = '$name_cate' and `id_cate` <> $id ";
+        $this->setQuery($sql);
+        return $this->loadAllRows();
+    }
     // Lấy một giá trị
     public function getOne($id)
     {

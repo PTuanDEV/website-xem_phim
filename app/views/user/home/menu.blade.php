@@ -35,32 +35,8 @@
                         <!-- end dropdown -->
 
                         <li class="header__nav-item">
-                            <a href="pricing.html" class="header__nav-link">Pricing plan</a>
+                            <a href="{{ route('buymember') }}" class="header__nav-link">Mua gói</a>
                         </li>
-
-                        <!-- dropdown -->
-                        {{-- <li class="dropdown header__nav-item">
-                            <a class="dropdown-toggle header__nav-link header__nav-link--more" href="#"
-                                role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false"><i class="icon ion-ios-more"></i></a>
-
-                            <ul class="dropdown-menu header__dropdown-menu scrollbar-dropdown"
-                                aria-labelledby="dropdownMenuMore">
-                                <li><a href="about.html">About</a></li>
-                                <li><a href="profile.html">Profile</a></li>
-                                <li><a href="contacts.html">Contacts</a></li>
-                                <li><a href="faq.html">Help center</a></li>
-                                <li><a href="privacy.html">Privacy policy</a></li>
-                                <li><a href="https://hotflix.volkovdesign.com/admin/index.html" target="_blank">Admin
-                                        pages</a></li>
-                                <li><a href="signin.html">Sign in</a></li>
-                                <li><a href="signup.html">Sign up</a></li>
-                                <li><a href="forgot.html">Forgot password</a></li>
-                                <li><a href="404.html">404 Page</a></li>
-                            </ul>
-                        </li> --}}
-
-                        <!-- end dropdown -->
                     </ul>
                     <!-- end header nav -->
 
@@ -72,24 +48,32 @@
                             <button class="header__search-button" type="submit">
                                 <i class="icon ion-ios-search"></i>
                             </button>
-
                         </form>
-                        {{-- <form action="{{ route('admin/movies/unblock/serch') }}" method="post"
-                            class="main__title-form">
-                            <input type="text" name="i_serch" placeholder="Tìm tên ...">
-                            <button type="submit">
-                                <i class="icon ion-ios-search"></i>
-                            </button>
-                        </form> --}}
 
                         <button class="header__search-btn" type="button">
                             <i class="icon ion-ios-search"></i>
                         </button>
                         @if (isset($_SESSION['login']))
-                            <a href="{{ route('logout') }}" class="header__sign-in">
-                                <i class="icon ion-ios-log-in"></i>
-                                <span>Logout</span>
-                            </a>
+                            <li class="header__nav-item">
+                                <a class="dropdown-toggle header__nav-link" href="#" role="button"
+                                    id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false"
+                                    style="border: 1px solid #f9ab00 ; width:auto; height:  50px; padding:5px;padding-left:20px;padding-right:20px;border-radius: 10px;">
+                                    <span>{{ $_SESSION['login']->fullname }}|</span>
+                                    <span>{{ $_SESSION['login']->money }}VNĐ</span>
+                                </a>
+                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+                                    <li>
+                                        <a href="{{ route('product') }}">Cập nhật thông tin</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('money') }}">Nạp tiền</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('logout') }}">Đăng xuất</a>
+                                    </li>
+                                </ul>
+                            </li>
                         @else
                             <a href="{{ route('signin') }}" class="header__sign-in">
                                 <i class="icon ion-ios-log-in"></i>

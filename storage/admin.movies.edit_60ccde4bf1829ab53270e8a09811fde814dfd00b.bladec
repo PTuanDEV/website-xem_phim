@@ -38,31 +38,13 @@
  <div class="form__group">
  <label class="form__label" for="file">Trailer</label>
  <?php if($trailer == 'video'): ?>
- <video controls crossorigin playsinline width="400"
- poster="<?php echo \htmlentities(BASE_URL . 'public/img/img_upload/' . $movies->img??'', ENT_QUOTES, 'UTF-8', false); ?>"
- id="player">
- <!-- Video files -->
- <source
+ <iframe width="420" height="345"
  src="<?php echo \htmlentities(BASE_URL . 'public/trailer/' . $movies->name_trailer??'', ENT_QUOTES, 'UTF-8', false); ?>"
- type="video/mp4" size="576">
- <source
- src="<?php echo \htmlentities(BASE_URL . 'public/trailer/' . $movies->name_trailer??'', ENT_QUOTES, 'UTF-8', false); ?>"
- type="video/mp4" size="720">
- <source
- src="<?php echo \htmlentities(BASE_URL . 'public/trailer/' . $movies->name_trailer??'', ENT_QUOTES, 'UTF-8', false); ?>"
- type="video/mp4" size="1080">
-
- <!-- Caption files -->
- <track kind="captions" label="English" srclang="en"
- src="<?php echo \htmlentities(BASE_URL . 'public/trailer/' . $movies->name_trailer??'', ENT_QUOTES, 'UTF-8', false); ?>"
- default>
- <track kind="captions" label="Français" srclang="fr"
- src="<?php echo \htmlentities(BASE_URL . 'public/trailer/' . $movies->name_trailer??'', ENT_QUOTES, 'UTF-8', false); ?>">
-
- <!-- Fallback for browsers that don't support the <video> element -->
- <a href="<?php echo \htmlentities(BASE_URL . 'public/trailer/' . $movies->name_trailer??'', ENT_QUOTES, 'UTF-8', false); ?>"
- download>Download</a>
- </video>
+ frameborder="0"></iframe>
+ <?php else: ?>
+ <iframe width="420" height="345"
+ src="<?php echo \htmlentities($movies->name_trailer??'', ENT_QUOTES, 'UTF-8', false); ?>" frameborder="0"></iframe>
+ <?php endif; ?>
  <div class="col-12">
  <div class="form__group">
  <label class="form__label" for="">Chọn trailer
@@ -76,48 +58,6 @@
  class="form__input">
  </div>
  </div>
- <?php else: ?>
- <?php if($trailer == 'link'): ?>
- <video controls crossorigin playsinline width="400"
- poster="<?php echo \htmlentities(BASE_URL . 'public/img/img_upload/' . $movies->img??'', ENT_QUOTES, 'UTF-8', false); ?>"
- id="player">
- <!-- Video files -->
- <source src="<?php echo \htmlentities($movies->name_trailer??'', ENT_QUOTES, 'UTF-8', false); ?>"
- type="video/mp4" size="576">
- <source src="<?php echo \htmlentities($movies->name_trailer??'', ENT_QUOTES, 'UTF-8', false); ?>"
- type="video/mp4" size="720">
- <source src="<?php echo \htmlentities($movies->name_trailer??'', ENT_QUOTES, 'UTF-8', false); ?>"
- type="video/mp4" size="1080">
-
- <!-- Caption files -->
- <track kind="captions" label="English" srclang="en"
- src="<?php echo \htmlentities($movies->name_trailer??'', ENT_QUOTES, 'UTF-8', false); ?>" default>
- <track kind="captions" label="Français" srclang="fr"
- src="<?php echo \htmlentities($movies->name_trailer??'', ENT_QUOTES, 'UTF-8', false); ?>">
-
- <!-- Fallback for browsers that don't support the <video> element -->
- <a href="<?php echo \htmlentities($movies->name_trailer??'', ENT_QUOTES, 'UTF-8', false); ?>"
- download>Download</a>
- </video>
- <div class="col-12">
- <div class="form__group">
- <label class="form__label" for="">Chọn
- trailer
- mới
- cho phim</label>
- <input type="hidden" name="trailer_old"
- value="<?php echo \htmlentities($movies->name_trailer??'', ENT_QUOTES, 'UTF-8', false); ?>">
- <input id="" type="text"
- name="link_trailer" class="form__input"
- placeholder="Link trailer mới">
- <input id="file" type="file"
- name="trailer" class="form__input">
- </div>
- </div>
- <?php else: ?>
- Lỗi video
- <?php endif; ?>
- <?php endif; ?>
  </div>
  </div>
 
@@ -125,31 +65,14 @@
  <div class="form__group">
  <label class="form__label" for="file">Video</label>
  <?php if($videos == 'video'): ?>
- <video controls crossorigin playsinline width="400"
- poster="<?php echo \htmlentities(BASE_URL . 'public/img/img_upload/' . $movies->img??'', ENT_QUOTES, 'UTF-8', false); ?>"
- id="player">
- <!-- Video files -->
- <source
- src="<?php echo \htmlentities(BASE_URL . 'public/trailer/' . $movies->name_video??'', ENT_QUOTES, 'UTF-8', false); ?>"
- type="video/mp4" size="576">
- <source
- src="<?php echo \htmlentities(BASE_URL . 'public/trailer/' . $movies->name_video??'', ENT_QUOTES, 'UTF-8', false); ?>"
- type="video/mp4" size="720">
- <source
- src="<?php echo \htmlentities(BASE_URL . 'public/trailer/' . $movies->name_video??'', ENT_QUOTES, 'UTF-8', false); ?>"
- type="video/mp4" size="1080">
-
- <!-- Caption files -->
- <track kind="captions" label="English" srclang="en"
- src="<?php echo \htmlentities(BASE_URL . 'public/trailer/' . $movies->name_video??'', ENT_QUOTES, 'UTF-8', false); ?>"
- default>
- <track kind="captions" label="Français" srclang="fr"
- src="<?php echo \htmlentities(BASE_URL . 'public/trailer/' . $movies->name_video??'', ENT_QUOTES, 'UTF-8', false); ?>">
-
- <!-- Fallback for browsers that don't support the <video> element -->
- <a href="<?php echo \htmlentities(BASE_URL . 'public/trailer/' . $movies->name_video??'', ENT_QUOTES, 'UTF-8', false); ?>"
- download>Download</a>
+ <iframe width="420" height="345"
+ src="<?php echo \htmlentities(BASE_URL . 'public/video/' . $movies->name_video??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ frameborder="0"></iframe>
+ <?php else: ?>
+ <iframe width="420" height="345"
+ src="<?php echo \htmlentities($movies->name_video??'', ENT_QUOTES, 'UTF-8', false); ?>" frameborder="0"></iframe>
  </video>
+ <?php endif; ?>
  <div class="col-12">
  <div class="form__group">
  <label class="form__label" for="">Chọn video
@@ -157,55 +80,12 @@
  cho phim</label>
  <input type="hidden" name="video_old"
  value="<?php echo \htmlentities($movies->name_video??'', ENT_QUOTES, 'UTF-8', false); ?>">
- <input id="" type="text"
- name="link_video" class="form__input"
- placeholder="Link video mới">
+ <input id="" type="text" name="link_video"
+ class="form__input" placeholder="Link video mới">
  <input id="file" type="file" name="video"
  class="form__input">
  </div>
  </div>
- <?php else: ?>
- <?php if($videos == 'link'): ?>
- <video controls crossorigin playsinline width="400"
- poster="<?php echo \htmlentities(BASE_URL . 'public/img/img_upload/' . $movies->img??'', ENT_QUOTES, 'UTF-8', false); ?>"
- id="player">
- <!-- Video files -->
- <source src="<?php echo \htmlentities($movies->name_video??'', ENT_QUOTES, 'UTF-8', false); ?>"
- type="video/mp4" size="576">
- <source src="<?php echo \htmlentities($movies->name_video??'', ENT_QUOTES, 'UTF-8', false); ?>"
- type="video/mp4" size="720">
- <source src="<?php echo \htmlentities($movies->name_video??'', ENT_QUOTES, 'UTF-8', false); ?>"
- type="video/mp4" size="1080">
-
- <!-- Caption files -->
- <track kind="captions" label="English" srclang="en"
- src="<?php echo \htmlentities($movies->name_video??'', ENT_QUOTES, 'UTF-8', false); ?>" default>
- <track kind="captions" label="Français"
- srclang="fr" src="<?php echo \htmlentities($movies->name_video??'', ENT_QUOTES, 'UTF-8', false); ?>">
-
- <!-- Fallback for browsers that don't support the <video> element -->
- <a href="<?php echo \htmlentities($movies->name_video??'', ENT_QUOTES, 'UTF-8', false); ?>"
- download>Download</a>
- </video>
- <div class="col-12">
- <div class="form__group">
- <label class="form__label" for="">Chọn
- video
- mới
- cho phim</label>
- <input type="hidden" name="video_old"
- value="<?php echo \htmlentities($movies->name_video??'', ENT_QUOTES, 'UTF-8', false); ?>">
- <input id="" type="text"
- name="link_video" class="form__input"
- placeholder="Link video mới">
- <input id="file" type="file"
- name="video" class="form__input">
- </div>
- </div>
- <?php else: ?>
- Lỗi video
- <?php endif; ?>
- <?php endif; ?>
  </div>
  </div>
 
@@ -214,8 +94,7 @@
  <label class="form__label" for="">Chọn Ảnh mới
  cho
  phim</label>
- <input type="hidden" name="img_old"
- value="<?php echo \htmlentities($movies->img??'', ENT_QUOTES, 'UTF-8', false); ?>">
+ <input type="hidden" name="img_old" value="<?php echo \htmlentities($movies->img??'', ENT_QUOTES, 'UTF-8', false); ?>">
  <input id="" type="file" name="img"
  class="form__input">
  </div>
@@ -234,7 +113,8 @@
  <div class="form__group">
  <label class="form__label" for="username">Năm phát hành</label>
  <input id="date" type="number" name="rearelease_year"
- class="form__input" value="<?php echo \htmlentities($movies->rearelease_year??'', ENT_QUOTES, 'UTF-8', false); ?>"  min="1" max="<?php echo \htmlentities(date('Y')??'', ENT_QUOTES, 'UTF-8', false); ?>">
+ class="form__input" value="<?php echo \htmlentities($movies->rearelease_year??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ min="1" max="<?php echo \htmlentities(date('Y')??'', ENT_QUOTES, 'UTF-8', false); ?>">
  </div>
  </div>
 
@@ -242,7 +122,8 @@
  <div class="form__group">
  <label class="form__label" for="img">Thời lượng</label>
  <input id="img" type="number" name="time"
- class="form__input" value="<?php echo \htmlentities($movies->time??'', ENT_QUOTES, 'UTF-8', false); ?>"  min="1" >
+ class="form__input" value="<?php echo \htmlentities($movies->time??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ min="1">
  </div>
  </div>
 

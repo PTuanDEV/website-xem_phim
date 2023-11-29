@@ -21,8 +21,13 @@
                                     <img src="{{ BASE_URL . 'public/img/img_upload/' . $movies->img }}" alt=""
                                         style="width:400px; height:360px;">
                                 </div>
-                                <a href="{{ $movies->name_trailer }}" class="card__trailer"><i
-                                        class="icon ion-ios-play-circle"></i> Watch trailer</a>
+                                @if ($trailer == 'video')
+                                    <a href="{{ BASE_URL . 'public/trailer/' . $movies->name_trailer }}"
+                                        class="card__trailer"><i class="icon ion-ios-play-circle"></i> Watch trailer</a>
+                                @else
+                                    <a href="{{ $movies->name_trailer }}" class="card__trailer"><i
+                                            class="icon ion-ios-play-circle"></i> Watch trailer</a>
+                                @endif
                                 {{-- <iframe src=""
                                     frameborder="0" class="card__trailer"><i class="icon ion-ios-play-circle" width="420"
                                         height="345"></i> Watch trailer</iframe> --}}
@@ -52,30 +57,40 @@
 
                 <!-- player -->
                 <div class="col-12 col-xl-6">
-
-                    <iframe src="{{ $movies->name_video }}" width="640" height="440">
-                    </iframe>
-
-                    {{-- <video controls crossorigin playsinline
-                        poster="../../cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg" id="player">
-                        <!-- Video files -->
-                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
-                            type="video/mp4" size="576">
-                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4"
-                            type="video/mp4" size="720">
-                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4"
-                            type="video/mp4" size="1080">
-
-                        <!-- Caption files -->
-                        <track kind="captions" label="English" srclang="en"
-                            src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt" default>
-                        <track kind="captions" label="Français" srclang="fr"
-                            src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt">
-
-                        <!-- Fallback for browsers that don't support the <video> element -->
-                        <a href="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
-                            download>Download</a>
-                    </video> --}}
+                    @if (isset($_SESSION['member']) && $_SESSION['member'])
+                        @if ($videos == 'link')
+                            <iframe src="{{ $movies->name_video }}" width="640" height="440">
+                            </iframe>
+                        @else
+                            <iframe src="{{ BASE_URL . 'public/video/' . $movies->name_video }}" width="640"
+                                height="440">
+                            </iframe>
+                        @endif
+                    @else
+                        @if (isset($_SESSION['login']))
+                            <a href="{{ route('buymember') }}" style="position: relative;"><img
+                                    src="{{ BASE_URL . 'public/img/img_upload/' . $movies->img }}" alt=""
+                                    style="width:640px; height:440px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" fill="currentColor"
+                                    class="bi bi-pause-circle-fill" viewBox="0 0 16 16"
+                                    style="position: absolute; top:40%; left:50%; bottom:50%;">
+                                    <path
+                                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5m3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5" />
+                                </svg>
+                            </a>
+                        @else
+                            <a href="{{ route('signin') }}" style="position: relative;"><img
+                                    src="{{ BASE_URL . 'public/img/img_upload/' . $movies->img }}" alt=""
+                                    style="width:640px; height:440px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" fill="currentColor"
+                                    class="bi bi-pause-circle-fill" viewBox="0 0 16 16"
+                                    style="position: absolute; top:40%; left:50%; bottom:50%;">
+                                    <path
+                                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5m3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5" />
+                                </svg>
+                            </a>
+                        @endif
+                    @endif
                 </div>
                 <!-- end player -->
             </div>
@@ -91,51 +106,8 @@
                 <div class="row">
                     <div class="col-12">
                         <!-- content title -->
-                        <h2 class="content__title">Discover</h2>
+                        <h2 class="content__title">Bình luận</h2>
                         <!-- end content title -->
-
-                        <!-- content tabs nav -->
-                        <ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab"
-                                    aria-controls="tab-1" aria-selected="true">Comments</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2"
-                                    aria-selected="false">Reviews</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3"
-                                    aria-selected="false">Photos</a>
-                            </li>
-                        </ul>
-                        <!-- end content tabs nav -->
-
-                        <!-- content mobile tabs nav -->
-                        <div class="content__mobile-tabs" id="content__mobile-tabs">
-                            <div class="content__mobile-tabs-btn dropdown-toggle" role="navigation" id="mobile-tabs"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <input type="button" value="Comments">
-                                <span></span>
-                            </div>
-
-                            <div class="content__mobile-tabs-menu dropdown-menu" aria-labelledby="mobile-tabs">
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab"
-                                            href="#tab-1" role="tab" aria-controls="tab-1"
-                                            aria-selected="true">Comments</a></li>
-
-                                    <li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2"
-                                            role="tab" aria-controls="tab-2" aria-selected="false">Reviews</a></li>
-
-                                    <li class="nav-item"><a class="nav-link" id="3-tab" data-toggle="tab" href="#tab-3"
-                                            role="tab" aria-controls="tab-3" aria-selected="false">Photos</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- end content mobile tabs nav -->
                     </div>
                 </div>
             </div>
@@ -143,7 +115,7 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-12 col-lg-8 col-xl-8">
+                <div class="col-12 col-lg-12 col-xl-12">
                     <!-- content tabs -->
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
@@ -175,8 +147,7 @@
 
                                                     <button type="button"><i
                                                             class="icon ion-ios-share-alt"></i>Reply</button>
-                                                    <button type="button"><i
-                                                            class="icon ion-ios-quote"></i>Quote</button>
+                                                    <button type="button"><i class="icon ion-ios-quote"></i>Quote</button>
                                                 </div>
                                             </li>
 
@@ -302,284 +273,9 @@
                                 <!-- end comments -->
                             </div>
                         </div>
-
-                        <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
-                            <div class="row">
-                                <!-- reviews -->
-                                <div class="col-12">
-                                    <div class="reviews">
-                                        <ul class="reviews__list">
-                                            <li class="reviews__item">
-                                                <div class="reviews__autor">
-                                                    <img class="reviews__avatar" src="img/user.svg" alt="">
-                                                    <span class="reviews__name">Best Marvel movie in my opinion</span>
-                                                    <span class="reviews__time">24.08.2018, 17:53 by John Doe</span>
-
-                                                    <span class="reviews__rating reviews__rating--green">8.4</span>
-                                                </div>
-                                                <p class="reviews__text">There are many variations of passages of Lorem
-                                                    Ipsum available, but the majority have suffered alteration in some form,
-                                                    by injected humour, or randomised words which don't look even slightly
-                                                    believable. If you are going to use a passage of Lorem Ipsum, you need
-                                                    to be sure there isn't anything embarrassing hidden in the middle of
-                                                    text.</p>
-                                            </li>
-
-                                            <li class="reviews__item">
-                                                <div class="reviews__autor">
-                                                    <img class="reviews__avatar" src="img/user.svg" alt="">
-                                                    <span class="reviews__name">Best Marvel movie in my opinion</span>
-                                                    <span class="reviews__time">24.08.2018, 17:53 by John Doe</span>
-
-                                                    <span class="reviews__rating reviews__rating--green">9.0</span>
-                                                </div>
-                                                <p class="reviews__text">There are many variations of passages of Lorem
-                                                    Ipsum available, but the majority have suffered alteration in some form,
-                                                    by injected humour, or randomised words which don't look even slightly
-                                                    believable. If you are going to use a passage of Lorem Ipsum, you need
-                                                    to be sure there isn't anything embarrassing hidden in the middle of
-                                                    text.</p>
-                                            </li>
-
-                                            <li class="reviews__item">
-                                                <div class="reviews__autor">
-                                                    <img class="reviews__avatar" src="img/user.svg" alt="">
-                                                    <span class="reviews__name">Best Marvel movie in my opinion</span>
-                                                    <span class="reviews__time">24.08.2018, 17:53 by John Doe</span>
-
-                                                    <span class="reviews__rating reviews__rating--red">5.5</span>
-                                                </div>
-                                                <p class="reviews__text">There are many variations of passages of Lorem
-                                                    Ipsum available, but the majority have suffered alteration in some form,
-                                                    by injected humour, or randomised words which don't look even slightly
-                                                    believable. If you are going to use a passage of Lorem Ipsum, you need
-                                                    to be sure there isn't anything embarrassing hidden in the middle of
-                                                    text.</p>
-                                            </li>
-                                        </ul>
-
-                                        <form action="#" class="form">
-                                            <input type="text" class="form__input" placeholder="Title">
-                                            <textarea class="form__textarea" placeholder="Review"></textarea>
-                                            <div class="form__slider">
-                                                <div class="form__slider-rating" id="slider__rating"></div>
-                                                <div class="form__slider-value" id="form__slider-value"></div>
-                                            </div>
-                                            <button type="button" class="form__btn">Send</button>
-                                        </form>
-                                    </div>
-                                </div>
-                                <!-- end reviews -->
-                            </div>
-                        </div>
-
-                        <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="3-tab">
-                            <!-- project gallery -->
-                            <div class="gallery" itemscope>
-                                <div class="row row--grid">
-                                    <!-- gallery item -->
-                                    <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                        <a href="img/gallery/project-1.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                            <img src="img/gallery/project-1.jpg" itemprop="thumbnail"
-                                                alt="Image description" />
-                                        </a>
-                                        <figcaption itemprop="caption description">Some image caption 1</figcaption>
-                                    </figure>
-                                    <!-- end gallery item -->
-
-                                    <!-- gallery item -->
-                                    <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                        <a href="img/gallery/project-2.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                            <img src="img/gallery/project-2.jpg" itemprop="thumbnail"
-                                                alt="Image description" />
-                                        </a>
-                                        <figcaption itemprop="caption description">Some image caption 2</figcaption>
-                                    </figure>
-                                    <!-- end gallery item -->
-
-                                    <!-- gallery item -->
-                                    <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                        <a href="img/gallery/project-3.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                            <img src="img/gallery/project-3.jpg" itemprop="thumbnail"
-                                                alt="Image description" />
-                                        </a>
-                                        <figcaption itemprop="caption description">Some image caption 3</figcaption>
-                                    </figure>
-                                    <!-- end gallery item -->
-
-                                    <!-- gallery item -->
-                                    <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                        <a href="img/gallery/project-4.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                            <img src="img/gallery/project-4.jpg" itemprop="thumbnail"
-                                                alt="Image description" />
-                                        </a>
-                                        <figcaption itemprop="caption description">Some image caption 4</figcaption>
-                                    </figure>
-                                    <!-- end gallery item -->
-
-                                    <!-- gallery item -->
-                                    <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                        <a href="img/gallery/project-5.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                            <img src="img/gallery/project-5.jpg" itemprop="thumbnail"
-                                                alt="Image description" />
-                                        </a>
-                                        <figcaption itemprop="caption description">Some image caption 5</figcaption>
-                                    </figure>
-                                    <!-- end gallery item -->
-
-                                    <!-- gallery item -->
-                                    <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                        <a href="img/gallery/project-6.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                            <img src="img/gallery/project-6.jpg" itemprop="thumbnail"
-                                                alt="Image description" />
-                                        </a>
-                                        <figcaption itemprop="caption description">Some image caption 6</figcaption>
-                                    </figure>
-                                    <!-- end gallery item -->
-                                </div>
-                            </div>
-                            <!-- end project gallery -->
-                        </div>
                     </div>
                     <!-- end content tabs -->
                 </div>
-
-                <!-- sidebar -->
-                <div class="col-12 col-lg-4 col-xl-4">
-                    <div class="row row--grid">
-                        <!-- section title -->
-                        <div class="col-12">
-                            <h2 class="section__title section__title--sidebar">You may also like...</h2>
-                        </div>
-                        <!-- end section title -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-6">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover.jpg" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                    <span class="card__rate card__rate--green">8.4</span>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
-                                    <span class="card__category">
-                                        <a href="#">Action</a>
-                                        <a href="#">Triler</a>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-6">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover2.jpg" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                    <span class="card__rate card__rate--green">7.1</span>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="#">Benched</a></h3>
-                                    <span class="card__category">
-                                        <a href="#">Comedy</a>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-6">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover3.jpg" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                    <span class="card__rate card__rate--red">6.3</span>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="#">Whitney</a></h3>
-                                    <span class="card__category">
-                                        <a href="#">Romance</a>
-                                        <a href="#">Drama</a>
-                                        <a href="#">Music</a>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-6">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover4.jpg" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                    <span class="card__rate card__rate--green">7.9</span>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="#">Blindspotting</a></h3>
-                                    <span class="card__category">
-                                        <a href="#">Comedy</a>
-                                        <a href="#">Drama</a>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-6">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover5.jpg" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                    <span class="card__rate card__rate--green">8.4</span>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
-                                    <span class="card__category">
-                                        <a href="#">Action</a>
-                                        <a href="#">Triler</a>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-6">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover6.jpg" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                    <span class="card__rate card__rate--green">7.1</span>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="#">Benched</a></h3>
-                                    <span class="card__category">
-                                        <a href="#">Comedy</a>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-                    </div>
-                </div>
-                <!-- end sidebar -->
             </div>
         </div>
     </section>

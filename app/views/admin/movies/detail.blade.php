@@ -17,7 +17,6 @@
                                                 <div class="col-12">
                                                     <h4 class="form__title">Chi tiết video</h4>
                                                 </div>
-
                                                 <div class="col-12">
                                                     <div class="form__group">
                                                         <label class="form__label" for="">Tên phim</label>
@@ -29,46 +28,9 @@
                                                     <div class="form__group">
                                                         <label class="form__label" for="file">Trailer</label>
                                                         @if ($trailer == 'video')
-                                                            <video controls crossorigin playsinline width="400"
-                                                                poster="{{ BASE_URL . 'public/img/img_upload/' . $movies->img }}"
-                                                                id="player">
-                                                                <!-- Video files -->
-                                                                <source
-                                                                    src="{{ BASE_URL . 'public/trailer/' . $movies->name_trailer }}"
-                                                                    type="video/mp4" size="576">
-                                                                <source
-                                                                    src="{{ BASE_URL . 'public/trailer/' . $movies->name_trailer }}"
-                                                                    type="video/mp4" size="720">
-                                                                <source
-                                                                    src="{{ BASE_URL . 'public/trailer/' . $movies->name_trailer }}"
-                                                                    type="video/mp4" size="1080">
-
-                                                                <!-- Caption files -->
-                                                                <track kind="captions" label="English" srclang="en"
-                                                                    src="{{ BASE_URL . 'public/trailer/' . $movies->name_trailer }}"
-                                                                    default>
-                                                                <track kind="captions" label="Français" srclang="fr"
-                                                                    src="{{ BASE_URL . 'public/trailer/' . $movies->name_trailer }}">
-
-                                                                <!-- Fallback for browsers that don't support the <video> element -->
-                                                                <a href="{{ BASE_URL . 'public/trailer/' . $movies->name_trailer }}"
-                                                                    download>Download</a>
-                                                            </video>
+                                                        <iframe width="420" height="345" src="{{ BASE_URL . 'public/trailer/' . $movies->name_trailer }}" frameborder="0"></iframe>
                                                         @else
-                                                            @if ($trailer == 'link')
-                                                                <div class="col-12">
-                                                                    <div class="form__group">
-                                                                        <img src="{{ BASE_URL . 'public/img/img_upload/' . $movies->img }}"
-                                                                            alt=""
-                                                                            style="width:100px; height:100px;">
-                                                                    </div>
-                                                                </div>
-                                                                <iframe width="420" height="345"
-                                                                    src="{{ $movies->name_video }}"
-                                                                    frameborder="0"></iframe>
-                                                            @else
-                                                                Lỗi video
-                                                            @endif
+                                                        <iframe width="420" height="345" src="{{ $movies->name_trailer }}" frameborder="0"></iframe>
                                                         @endif
                                                     </div>
                                                 </div>
@@ -76,81 +38,19 @@
                                                     <div class="form__group">
                                                         <label class="form__label" for="file">Video</label>
                                                         @if ($videos == 'video')
-                                                            <video controls crossorigin playsinline width="400"
-                                                                poster="{{ BASE_URL . 'public/img/img_upload/' . $movies->img }}"
-                                                                id="player">
-                                                                <!-- Video files -->
-                                                                <source
-                                                                    src="{{ BASE_URL . 'public/trailer/' . $movies->name_video }}"
-                                                                    type="video/mp4" size="576">
-                                                                <source
-                                                                    src="{{ BASE_URL . 'public/trailer/' . $movies->name_video }}"
-                                                                    type="video/mp4" size="720">
-                                                                <source
-                                                                    src="{{ BASE_URL . 'public/trailer/' . $movies->name_video }}"
-                                                                    type="video/mp4" size="1080">
-
-                                                                <!-- Caption files -->
-                                                                <track kind="captions" label="English" srclang="en"
-                                                                    src="{{ BASE_URL . 'public/trailer/' . $movies->name_video }}"
-                                                                    default>
-                                                                <track kind="captions" label="Français" srclang="fr"
-                                                                    src="{{ BASE_URL . 'public/trailer/' . $movies->name_video }}">
-
-                                                                <!-- Fallback for browsers that don't support the <video> element -->
-                                                                <a href="{{ BASE_URL . 'public/trailer/' . $movies->name_video }}"
-                                                                    download>Download</a>
-                                                            </video>
+                                                            <iframe width="420" height="345"
+                                                                src="{{ BASE_URL . 'public/video/' . $movies->name_video }}"
+                                                                frameborder="0"></iframe>
+                                                        @else
                                                             <div class="col-12">
                                                                 <div class="form__group">
-                                                                    <label class="form__label" for="">Chọn video
-                                                                        mới
-                                                                        cho phim</label>
-                                                                    <input type="hidden" name="video_old"
-                                                                        value="{{ $movies->name_video }}">
-                                                                    <input id="" type="text" name="link_video"
-                                                                        class="form__input" placeholder="Link video mới">
-                                                                    <input id="file" type="file" name="video"
-                                                                        class="form__input">
+                                                                    <img src="{{ BASE_URL . 'public/img/img_upload/' . $movies->img }}"
+                                                                        alt="" style="width:100px; height:100px;">
                                                                 </div>
                                                             </div>
-                                                        @else
-                                                            @if ($videos == 'link')
-                                                                <div class="col-12">
-                                                                    <div class="form__group">
-                                                                        <img src="{{ BASE_URL . 'public/img/img_upload/' . $movies->img }}"
-                                                                            alt=""
-                                                                            style="width:100px; height:100px;">
-                                                                    </div>
-                                                                </div>
-                                                                <iframe width="420" height="345"
-                                                                    src="{{ $movies->name_video }}"
-                                                                    frameborder="0"></iframe>
-                                                                {{-- <video controls crossorigin playsinline width="400"
-                                                                    poster="{{ BASE_URL . 'public/img/img_upload/' . $movies->img }}"
-                                                                    id="player">
-                                                                    <!-- Video files -->
-                                                                    <source src="{{ $movies->name_video }}"
-                                                                        type="video/mp4" size="576">
-                                                                    <source src="{{ $movies->name_video }}"
-                                                                        type="video/mp4" size="720">
-                                                                    <source src="{{ $movies->name_video }}"
-                                                                        type="video/mp4" size="1080">
-
-                                                                    <!-- Caption files -->
-                                                                    <track kind="captions" label="English" srclang="en"
-                                                                        src="{{ $movies->name_video }}" default>
-                                                                    <track kind="captions" label="Français"
-                                                                        srclang="fr" src="{{ $movies->name_video }}">
-
-                                                                    <!-- Fallback for browsers that don't support the <video> element -->
-                                                                    <a href="{{ $movies->name_video }}"
-                                                                        download>Download</a>
-                                                                </video> --}}
-                                                            @endif
+                                                            <iframe width="420" height="345"
+                                                                src="{{ $movies->name_video }}" frameborder="0"></iframe>
                                                         @endif
-
-
                                                     </div>
                                                 </div>
 

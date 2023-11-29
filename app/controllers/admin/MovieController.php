@@ -265,6 +265,11 @@ class MovieController extends BaseController
             $creater = date("Y-m-d H:i:s");
             if (empty($_POST['name_movie'])) {
                 $errors[] = "Bạn chưa nhập tên phim";
+            } else {
+                $result = $this->movie->getName($_POST['name_movie']);
+                if ($result) {
+                    $errors[] = "Tên phim đã tồn tại";
+                }
             }
             if ($_FILES['video']['size'] > 0) {
                 $video = ['mp4'];
@@ -289,7 +294,7 @@ class MovieController extends BaseController
                     $errors[] = "File không phải video";
                 } else {
                     $name_trailer = time() . $_FILES['trailer']['name'];
-                    move_uploaded_file($_FILES['trailer']['tmp_name'], './public/video/' . $name_trailer);
+                    move_uploaded_file($_FILES['trailer']['tmp_name'], './public/trailer/' . $name_trailer);
                 }
             } else {
                 if (empty($_POST['link_video'])) {
@@ -374,6 +379,11 @@ class MovieController extends BaseController
             $errors = [];
             if (empty($_POST['name_movie'])) {
                 $errors[] = "Bạn chưa nhập tên phim";
+            } else {
+                $result = $this->movie->getNameID($id, $_POST['name_movie']);
+                if ($result) {
+                    $errors[] = "Tên phim đã tồn tại";
+                }
             }
             // trailer video
             if ($_FILES['trailer']['size'] > 0) {
@@ -383,7 +393,7 @@ class MovieController extends BaseController
                     $errors[] = "File không phải video";
                 } else {
                     $name_trailer = time() . $_FILES['trailer']['name'];
-                    move_uploaded_file($_FILES['trailer']['tmp_name'], './public/video/' . $name_trailer);
+                    move_uploaded_file($_FILES['trailer']['tmp_name'], './public/trailer/' . $name_trailer);
                 }
             } else {
                 if (empty($_POST['link_trailer'])) {
@@ -400,7 +410,7 @@ class MovieController extends BaseController
                     $errors[] = "File không phải video";
                 } else {
                     $name_movie = time() . $_FILES['video']['name'];
-                    move_uploaded_file($_FILES['video']['tmp_name'], './public/video/' . $name_trailer);
+                    move_uploaded_file($_FILES['video']['tmp_name'], './public/video/' . $name_movie);
                 }
             } else {
                 if (empty($_POST['link_video'])) {

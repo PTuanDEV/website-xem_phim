@@ -139,6 +139,14 @@ if (isset($_SESSION['login']) && $_SESSION['login']->role == 1) {
             $member->get('edit/{id}', [App\Controllers\Admin\MemberController::class, 'edit']);
             $member->post('edit/{id}', [App\Controllers\Admin\MemberController::class, 'editPost']);
         });
+        // Router bill
+        $collector->group(array('prefix' => 'bill'), function (RouteCollector $bill) {
+            $bill->get('/', [App\Controllers\Admin\BillController::class, 'getAll']);
+            $bill->get('/{page}', [App\Controllers\Admin\BillController::class, 'getPage']);
+            $bill->post('serch', [App\Controllers\Admin\BillController::class, 'getSerch']);
+        });
+
+        
     });
 } else {
     // Route Nhân viên
@@ -190,6 +198,14 @@ $router->get('/', [App\Controllers\User\HomeController::class, 'home']);
 $router->get('product/{id}', [App\Controllers\User\HomeController::class, 'productId']);
 $router->post('product/{id}', [App\Controllers\User\HomeController::class, 'productId']);
 $router->get('details/{id}', [App\Controllers\User\HomeController::class, 'details']);
+$router->get('money', [App\Controllers\User\HomeController::class, 'updateMoney']);
+$router->post('money', [App\Controllers\User\HomeController::class, 'vnPay']);
+$router->get('pay/{id}', [App\Controllers\User\HomeController::class, 'addVnpay']);
+
+$router->get('buymember', [App\Controllers\User\HomeController::class, 'buyMember']);
+$router->post('buymember', [App\Controllers\User\HomeController::class, 'buyTeam']);
+
+
 
 $router->get('signin', [App\Controllers\User\FormController::class, 'login']);
 $router->post('signin', [App\Controllers\User\FormController::class, 'checkLogin']);

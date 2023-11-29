@@ -112,6 +112,11 @@ class CategoriesController extends BaseController
             $errors = [];
             if (empty($_POST['name_cate'])) {
                 $errors[] = "Bạn chưa nhập loại phim";
+            } else {
+                $categorys = $this->category->getName($_POST['name_cate']);
+                if ($categorys) {
+                    $errors[] = "Đã tồn tại loại phim này";
+                }
             }
             $creater_at = date("Y-m-d H:i:s");
             if (count($errors) > 0) {
@@ -138,7 +143,12 @@ class CategoriesController extends BaseController
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errors = [];
             if (empty($_POST['name_cate'])) {
-                $errors[] = "Bạn đã xóa hết họ và tên";
+                $errors[] = "Bạn đã xóa hết nội dung";
+            } else {
+                $categorys = $this->category->getNameId($id,$_POST['name_cate']);
+                if ($categorys) {
+                    $errors[] = "Đã tồn tại loại phim này";
+                }
             }
             if (count($errors) > 0) {
                 flash('errors', $errors, 'admin/categories/edit/' . $id);

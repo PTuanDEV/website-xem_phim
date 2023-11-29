@@ -4,6 +4,7 @@ namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
 use App\Models\Category;
+use App\Models\Member;
 use App\Models\Movie;
 use App\Models\User;
 
@@ -13,11 +14,13 @@ class FormController extends BaseController
     protected $user;
     protected $movie;
     protected $category;
+    protected $member;
     public function __construct()
     {
         $this->user = new User();
         $this->movie = new Movie();
         $this->category = new Category();
+        $this->member = new Member();
     }
     public function login()
     {
@@ -55,8 +58,9 @@ class FormController extends BaseController
                         if ($users) {
                             if (password_verify($_POST['password'], $users->password)) {
                                 $_SESSION['login'] = $users;
+                                $today = date("Y-m-d H:i:s");
+                                $_SESSION['member'] = $this->member->getOneTeam($_SESSION['login']->id_user, $today);
                                 if ($_SESSION['login']->role == 0) {
-
                                     flash('success', 'Đăng nhập thành công', '/');
                                 } else {
                                     flash('success', 'Đăng nhập thành công', 'admin');
@@ -118,9 +122,9 @@ class FormController extends BaseController
                 if (strlen($_POST['username']) < 5) {
                     $errors[] = "Tên đăng nhập phải trên 5 kí tự";
                 } else {
-                    $username = $this->user->getUser($_POST['username']);
+                    $username = $this->user->getUserAll($_POST['username']);
                     if ($username) {
-                        $errors[] = "Tên đăng nhập đã tồn tại";
+                        $errors[] = "Đã tồn tại tên đăng nhập";
                     }
                 }
             }
@@ -157,6 +161,7 @@ class FormController extends BaseController
     public function logOut()
     {
         unset($_SESSION['login']);
+        unset($_SESSION['member']);
         flash('success', 'Đăng xuất thành công', '');
     }
     public function home()

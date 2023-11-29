@@ -160,6 +160,11 @@ class MemberController extends BaseController
 
             if (empty($_POST['name_member'])) {
                 $errors[] = "Bạn chưa nhập tên gói";
+            } else {
+                $result = $this->member->getListBill($_POST['name_member']);
+                if ($result) {
+                    $errors[] = "Tên gói này đã tồn tại";
+                }
             }
             if (empty($_POST['price'])) {
                 $errors[] = "Bạn chưa nhập giá gói";
@@ -194,6 +199,11 @@ class MemberController extends BaseController
             $errors = [];
             if (empty($_POST['name_member'])) {
                 $errors[] = "Bạn chưa nhập tên gói";
+            } else {
+                $result = $this->member->getListBillId($id, $_POST['name_member']);
+                if ($result) {
+                    $errors[] = "Tên gói này đã tồn tại";
+                }
             }
             if (empty($_POST['price'])) {
                 $errors[] = "Bạn chưa nhập giá gói";
