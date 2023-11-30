@@ -94,9 +94,7 @@
  </ul>
  </div>
  <!-- end filter item -->
-
  </div>
-
  </div>
  </div>
  </div>
@@ -112,7 +110,7 @@
 
  <div class="col-6 col-sm-4 col-md-3 col-xl-2">
  <div class="card">
- <h3  style="color: white;">Không có video cho danh mục này</h3>
+ <h3 style="color: white;">Không có video cho danh mục này</h3>
  </div>
  <!-- end card -->
  </div>

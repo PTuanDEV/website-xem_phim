@@ -26,7 +26,8 @@
                                     </a>
                                 </div>
                                 <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ route('details/' . $value_products_new->id_movie) }}">{{ $value_products_new->name_movie }}</a>
+                                    <h3 class="card__title"><a
+                                            href="{{ route('details/' . $value_products_new->id_movie) }}">{{ $value_products_new->name_movie }}</a>
                                     </h3>
                                     <span class="card__category">
                                         <a href="{{ route('details/' . $value_products_new->id_movie) }}">Trailer</a>
@@ -70,7 +71,7 @@
                                 <div class="card__cover">
                                     <img src="{{ BASE_URL . 'public/img/img_upload/' . $value_products_near->img }}"
                                         alt="" style="width:200px; height:350px;">
-                                    <a href="details.html" class="card__play">
+                                    <a href="{{ route('details/' . $value_products_near->id_movie) }}" class="card__play">
                                         <i class="icon ion-ios-play"></i>
                                     </a>
                                 </div>
@@ -78,8 +79,8 @@
                                     <h3 class="card__title"><a
                                             href="details.html">{{ $value_products_near->name_movie }}</a></h3>
                                     <span class="card__category">
-                                        <a href="#">Trailer</a>
-                                        <a href="#">Video</a>
+                                        <a href="{{ route('details/' . $value_products_near->id_movie) }}">Trailer</a>
+                                        <a href="{{ route('details/' . $value_products_near->id_movie) }}">Video</a>
                                     </span>
                                 </div>
                             </div>

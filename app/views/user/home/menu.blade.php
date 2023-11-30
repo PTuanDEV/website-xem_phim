@@ -70,6 +70,12 @@
                                         <a href="{{ route('money') }}">Nạp tiền</a>
                                     </li>
                                     <li>
+                                        <a href="{{ route('product') }}">Lịch sử xem</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('product') }}">Lịch sử nạp</a>
+                                    </li>
+                                    <li>
                                         <a href="{{ route('logout') }}">Đăng xuất</a>
                                     </li>
                                 </ul>
