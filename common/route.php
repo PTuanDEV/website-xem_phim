@@ -227,17 +227,15 @@ $router->get('details/{id}', [App\Controllers\User\HomeController::class, 'detai
 $router->get('money', [App\Controllers\User\HomeController::class, 'updateMoney']);
 $router->post('money', [App\Controllers\User\HomeController::class, 'vnPay']);
 $router->get('pay/{id}', [App\Controllers\User\HomeController::class, 'addVnpay']);
-
 $router->get('buymember', [App\Controllers\User\HomeController::class, 'buyMember']);
 $router->post('buymember', [App\Controllers\User\HomeController::class, 'buyTeam']);
-
 $router->post('comment/{id}', [App\Controllers\User\HomeController::class, 'comment']);
-
 $router->get('signin', [App\Controllers\User\FormController::class, 'login']);
 $router->post('signin', [App\Controllers\User\FormController::class, 'checkLogin']);
 $router->get('signup', [App\Controllers\User\FormController::class, 'signup']);
 $router->post('signup', [App\Controllers\User\FormController::class, 'postSignup']);
 $router->get('forgot', [App\Controllers\User\FormController::class, 'forgot']);
+$router->post('forgot', [App\Controllers\User\FormController::class, 'postForgot']);
 $router->get('logout', [App\Controllers\User\FormController::class, 'logOut']);
 
 

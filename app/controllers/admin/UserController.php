@@ -5,13 +5,16 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 
 use App\Models\User;
+use PHPMailer\PHPMailer\PHPMailer;
 
 class UserController extends BaseController
 {
-    public $user;
+    protected $user;
+    protected $mail;
     public function __construct()
     {
         $this->user = new User();
+        $this->mail = new PHPMailer();
     }
     // User admin 
     public function getAdmin()
@@ -172,7 +175,7 @@ class UserController extends BaseController
             }
             if (empty($_POST['username'])) {
                 $errors[] = "Bạn chưa nhập tên đăng nhập";
-            }else{
+            } else {
                 $username = $this->user->getUserAll($_POST['username']);
                 if ($username) {
                     $errors[] = "Đã tồn tại tên đăng nhập";
@@ -231,7 +234,28 @@ class UserController extends BaseController
         $users = $this->user->getOne($id);
         $password = password_hash('123456', PASSWORD_DEFAULT);
         $result = $this->user->resetPass($id, $password);
+
         if ($result) {
+            $this->mail->SMTPDebug = 0;
+            $this->mail->isSMTP();
+            $this->mail->Host       = 'smtp.gmail.com';
+            $this->mail->SMTPAuth   = true;
+            $this->mail->Username   = 'tuan.ko.2k2@gmail.com';
+            $this->mail->Password   = 'txphtdcwvtlfrgtx';
+            $this->mail->SMTPSecure = 'tls';
+            $this->mail->Port       = 587;
+            //Recipients
+            $this->mail->setFrom('tuan.ko.2k2@gmail.com', 'Forgot password');
+            $this->mail->addAddress($users->email, 'Test');
+            //Attachments
+            // $this->mail->addAttachment('/var/tmp/file.tar.gz');         
+            // $this->mail->addAttachment('/tmp/image.jpg', 'new.jpg');    
+            //Content
+            $this->mail->isHTML(true);
+            $this->mail->Subject = 'Forgot password';
+            $this->mail->Body    = '<span>Mật khẩu của bạn đã được đặt lại thành <b style="color: red;" >123456</b><span>';
+            $this->mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+            $this->mail->send();
             if ($users->role == 0) {
                 flash('success', 'Khôi phục mật khẩu thành công', 'admin/user/unblock');
             } else {

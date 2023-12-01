@@ -13,6 +13,7 @@
     ],
     "require": {
         "phroute/phroute": "^2.2",
-        "eftec/bladeone": "^4.9"
+        "eftec/bladeone": "^4.9",
+        "phpmailer/phpmailer": "^6.9"
     }
 }

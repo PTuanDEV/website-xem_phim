@@ -8,6 +8,10 @@ use App\Models\Member;
 use App\Models\Movie;
 use App\Models\User;
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 class FormController extends BaseController
 {
 
@@ -15,12 +19,14 @@ class FormController extends BaseController
     protected $movie;
     protected $category;
     protected $member;
+    protected $mail;
     public function __construct()
     {
         $this->user = new User();
         $this->movie = new Movie();
         $this->category = new Category();
         $this->member = new Member();
+        $this->mail = new PHPMailer();
     }
     public function login()
     {
@@ -31,7 +37,7 @@ class FormController extends BaseController
                 $categorys = $this->category->getAll();
                 return $this->render('user.home.home', compact('products_new', 'products_near', 'categorys'));
             } else {
-                return $this->render('admin.layout.main');
+                return $this->render('admin.layout.home');
             }
         } else {
             return $this->render('user.form.signin');
@@ -83,7 +89,7 @@ class FormController extends BaseController
     {
         if (isset($_SESSION['login']) && ($_SESSION['login'])) {
 
-            return $this->render('user.layout.main');
+            return $this->render('user.layout.home');
         } else {
             return $this->render('user.form.signup');
         }
@@ -157,6 +163,56 @@ class FormController extends BaseController
     }
     public function forgot()
     {
+        if (isset($_SESSION['login']) && ($_SESSION['login'])) {
+            return $this->render('user.layout.home');
+        } else {
+            return $this->render('user.form.forgot');
+        }
+    }
+    public function postForgot()
+    {
+        if (isset($_POST['forgot']) && ($_POST['forgot'])) {
+            $errors = [];
+            if (empty($_POST['email'])) {
+                $errors[] = "Vui lòng nhập email";
+            } else {
+                $email = $this->user->getEmail($_POST['email']);
+                if ($email) {
+                    $this->mail->SMTPDebug = 0;                      //Enable verbose debug output SMTP::DEBUG_SERVER
+                    $this->mail->isSMTP();                                            //Send using SMTP
+                    $this->mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+                    $this->mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                    $this->mail->Username   = 'tuan.ko.2k2@gmail.com';                     //SMTP username
+                    $this->mail->Password   = 'txphtdcwvtlfrgtx';                               //SMTP password
+                    $this->mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
+                    $this->mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+                    //Recipients
+                    $this->mail->setFrom('tuan.ko.2k2@gmail.com', 'Forgot password');
+                    $this->mail->addAddress($_POST['email'], 'Test');     //Add a recipient
+                    //Attachments
+                    // $this->mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+                    // $this->mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+                    //Content
+                    $this->mail->isHTML(true);                                  //Set email format to HTML
+                    $this->mail->Subject = 'Forgot password';
+                    $this->mail->Body    = '<span>Mật khẩu của bạn đã được đặt lại thành <b style="color: red;" >123456</b><span>';
+                    $this->mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+                    $this->mail->send();
+                    $password = password_hash('123456', PASSWORD_DEFAULT);
+                    $result = $this->user->resetPass($email->id_user, $password);
+                    if ($result) {
+                        $success = "Hãy check mail để lấy mật khẩu";
+                    }
+                } else {
+                    $errors[] = "Email không tồn tại";
+                }
+            }
+            if (count($errors) > 0) {
+                flash('errors', $errors, 'forgot');
+            } else {
+                return $this->render('user.form.forgot', compact('success'));
+            }
+        }
     }
     public function logOut()
     {
