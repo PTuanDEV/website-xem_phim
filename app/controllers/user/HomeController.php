@@ -9,6 +9,7 @@ use App\Models\History;
 use App\Models\Member;
 use App\Models\Movie;
 use App\Models\User;
+use PDO;
 
 class HomeController extends BaseController
 {
@@ -237,12 +238,114 @@ class HomeController extends BaseController
         if (isset($_POST['send'])) {
             $today = date("Y-m-d H:i:s");
             if (empty($_POST['comment'])) {
-                flash('success', 'Mua thành công', 'details/' . $id);
+                flash('success', 'Bình luận thành công', 'details/' . $id);
             } else {
                 $comment = $_POST['comment'];
                 $rlt = $this->comment->add($comment, $today, $_SESSION['login']->id_user, $id);
                 if ($rlt) {
-                    flash('success', 'Mua thành công', 'details/' . $id);
+                    flash('success', 'Bình luận thành công', 'details/' . $id);
+                }
+            }
+        }
+    }
+    public function profile()
+    {
+        $today = date("Y-m-d H:i:s");
+        $member_user = $this->member->getOneTeam($_SESSION['login']->id_user, $today);
+        $his_user = $this->history->getAllUser($_SESSION['login']->id_user);
+        $his_count = count($his_user);
+        $com_user = $this->comment->getAllOne($_SESSION['login']->id_user);
+        $com_count = count($com_user);
+        $categorys = $this->category->getAll();
+        $this->render("user.home.profile", compact("categorys", "member_user", "his_count", "com_count"));
+    }
+    public function userUpdate()
+    {
+        if (isset($_POST['thongtincoban']) && ($_POST['thongtincoban'])) {
+            $error = [];
+            if (empty($_POST['fullname'])) {
+                $error[] = "Bạn vừa xóa họ và tên";
+            }
+            if (empty($_POST['email'])) {
+                $error[] = "Bạn vừa xóa emil";
+            } else {
+                $email = $this->user->getEmailId($_SESSION['login']->id_user, $_POST['email']);
+                if ($email) {
+                    $error[] = "Email đã tồn tại";
+                }
+            }
+            if ($_FILES['img']['size'] > 0) {
+                $img = ['ipg', 'ipeg', 'png', 'gif'];
+                $file_ext = pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
+                if (in_array($file_ext, $img)) {
+                    $img_name = $_FILES['img']['name'];
+                } else {
+                    $error[] = "File không phải ảnh";
+                }
+            } else {
+                $img_name = $_POST['img_old'];
+            }
+
+            if (empty($_POST['phone'])) {
+                $error[] = "Bạn vừa xóa số điện thoại";
+            } else {
+                if (strlen($_POST['phone']) < 10) {
+                    $error[] = "Vui lòng nhập đúng số điện thoại";
+                } else {
+                    $phone = $this->user->getPhoneId($_SESSION['login']->id_user, $_POST['phone']);
+                    if ($phone) {
+                        $error[] = "Số điện thoại đã tồn tại";
+                    }
+                }
+            }
+            if (count($error) <= 0) {
+                $relust = $this->user->updateProfile($_SESSION['login']->id_user, $_POST['fullname'], $_POST['email'], $_POST['phone'], $img_name);
+                if ($relust) {
+                    move_uploaded_file($_FILES['img']['tmp_name'],  './public/img/img_upload/' . $_FILES['img']['name']);
+                    $_SESSION['login'] = $this->user->getUser($_SESSION['login']->username);
+                    flash('success', 'Cập nhật thành công', 'profile');
+                }
+            } else {
+                flash('errors', $error, 'profile');
+            }
+        } else {
+            if (isset($_POST['doimatkhau']) && ($_POST['doimatkhau'])) {
+                $error = [];
+                if (empty($_POST['oldpass'])) {
+                    $error[] = "Vui lòng nhập mật khẩu cũ";
+                } else {
+                    // $getUserAll($username)
+                    // password_hash()
+
+                    if (password_verify($_POST['oldpass'], $_SESSION['login']->password)) {
+                        if (empty($_POST['newpass'])) {
+                            $error[] = "Vui lòng nhập mật khẩu mới";
+                        } else {
+                            if (strlen($_POST['newpass']) > 5) {
+                                if (empty($_POST['confirmpass'])) {
+                                    $error[] = "Vui lòng nhập lại mật khẩu mới";
+                                } else {
+                                    if ($_POST['confirmpass'] != $_POST['newpass']) {
+                                        $error[] = "Hai mật khẩu không khớp";
+                                    }
+                                }
+                            } else {
+                                $error[] = "Mật khẩu phải lớn hơn 5 kí tự";
+                            }
+                        }
+                    } else {
+                        $error[] = "Bạn nhập sai mật khẩu cũ";
+                    }
+                }
+                if (count($error) <= 0) {
+                    $password = password_hash($_POST['confirmpass'], PASSWORD_DEFAULT);
+                    $relust = $this->user->resetPass($_SESSION['login']->id_user, $password);
+                    if ($relust) {
+                        $_SESSION['login'] = $this->user->getUser($_SESSION['login']->username);
+                        flash('success', 'Cập nhật thành công', 'profile');
+                    }
+                } else {
+                    flash('errors', $error, 'profile');
                 }
             }
         }

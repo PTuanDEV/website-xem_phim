@@ -102,6 +102,20 @@ class User extends BaseModel
         return $this->loadRow([$username]);
     }
     // Tìm kiếm theo email
+    public function getEmailId($id, $email)
+    {
+        $sql = "SELECT * FROM  $this->table where `email` = ? and `id_user` <> ? ";
+        $this->setQuery($sql);
+        return $this->loadRow([$email, $id]);
+    }
+    // Tìm kiếm theo so dien thoai
+    public function getPhoneId($id, $phone)
+    {
+        $sql = "SELECT * FROM  $this->table where `phone` = ? and `id_user` <> ? ";
+        $this->setQuery($sql);
+        return $this->loadRow([$phone, $id]);
+    }
+    // Tìm kiếm theo email
     public function getEmail($email)
     {
         $sql = "SELECT * FROM  $this->table where `email` = ? ";
@@ -122,7 +136,13 @@ class User extends BaseModel
         $this->setQuery($sql);
         return $this->loadRow([$username]);
     }
-
+    // Lấy mật khẩu
+    // public function getPass($pass)
+    // {
+    //     $sql = "SELECT * FROM  $this->table   where  `username` = ? ";
+    //     $this->setQuery($sql);
+    //     return $this->loadRow([$username]);
+    // }
     // Kiểm tra xem tài khoản đã mua gói 
     public function getMember($id, $today)
     {
@@ -175,5 +195,12 @@ class User extends BaseModel
         $sql = "UPDATE $this->table set status=?  WHERE id_user=?";
         $this->setQuery($sql);
         return $this->execute([$status, $id_user]);
+    }
+    // Cập nhật thông tin cơ bản
+    public function updateProfile($id_user, $fullname, $email, $phone, $img)
+    {
+        $sql = "UPDATE $this->table set `fullname`=?, `email`=?, `phone`=?, `img`=?  WHERE `id_user`=?";
+        $this->setQuery($sql);
+        return $this->execute([$fullname, $email, $phone, $img, $id_user]);
     }
 }

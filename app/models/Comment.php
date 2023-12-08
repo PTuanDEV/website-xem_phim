@@ -67,11 +67,26 @@ class Comment extends BaseModel
         $this->setQuery($sql);
         return $this->loadAllRows([$id]);
     }
+
     // Cập nhật trạng thái(Xóa mềm)
     public function updateStatus($id_com, $status)
     {
         $sql = "UPDATE $this->table set `status`=?  WHERE id_com=?";
         $this->setQuery($sql);
         return $this->execute([$status, $id_com]);
+    }
+
+    public function getMoth($start, $end)
+    {
+        $sql = "SELECT * FROM $this->table WHERE `status`=1 AND  `create_at` > '" . $start . "' AND `create_at` < '" . $end . "'";
+        $this->setQuery($sql);
+        return $this->loadAllRows();
+    }
+    // Lấy tất cả bình luận của người dùng
+    public function getAllOne($id)
+    {
+        $sql = "SELECT * FROM $this->table c JOIN $this->table2 u ON c.`id_user`=u.`id_user` JOIN $this->table3 m ON c.`id_movie`=m.`id_movie` WHERE  u.`id_user`= ? order by c.`create_at` desc";
+        $this->setQuery($sql);
+        return $this->loadAllRows([$id]);
     }
 }

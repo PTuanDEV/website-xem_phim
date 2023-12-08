@@ -125,7 +125,7 @@ class Movie extends BaseModel
     // lấy danh sách phim mới trong tháng 
     public function getAllMonth($start, $end)
     {
-        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  WHERE  m.status =2 AND c.status=1  AND  '" . $start . "' < `creater_at` < '" . $end . "' ";
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  WHERE  m.status =2 AND c.status=1  AND  `creater_at` > '" . $start . "' AND `creater_at` < '" . $end . "'  ";
         $this->setQuery($sql);
         return $this->loadAllRows();
     }

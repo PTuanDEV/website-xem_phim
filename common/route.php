@@ -237,7 +237,8 @@ $router->post('signup', [App\Controllers\User\FormController::class, 'postSignup
 $router->get('forgot', [App\Controllers\User\FormController::class, 'forgot']);
 $router->post('forgot', [App\Controllers\User\FormController::class, 'postForgot']);
 $router->get('logout', [App\Controllers\User\FormController::class, 'logOut']);
-
+$router->get('profile', [App\Controllers\User\HomeController::class, 'profile']);
+$router->post('user_update', [App\Controllers\User\HomeController::class, 'userUpdate']);
 
 // khu vực cần quan tâm -----------
 //$router->get('test', [App\Controllers\ProductController::class, 'index']);

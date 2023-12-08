@@ -64,7 +64,7 @@
                                 </a>
                                 <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
                                     <li>
-                                        <a href="{{ route('product') }}">Cập nhật thông tin</a>
+                                        <a href="{{ route('profile') }}">Cập nhật thông tin</a>
                                     </li>
                                     <li>
                                         <a href="{{ route('money') }}">Nạp tiền</a>

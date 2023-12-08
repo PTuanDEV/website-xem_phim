@@ -15,18 +15,8 @@
                 <!-- stats -->
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="stats">
-                        <span>Lượt xem trong tháng</span>
-                        <p>{{ $see }}</p>
-                        <i class="icon ion-ios-stats"></i>
-                    </div>
-                </div>
-                <!-- end stats -->
-
-                <!-- stats -->
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <div class="stats">
                         <span>Phim mới trong tháng</span>
-                        <p>{{ $value }}</p>
+                        <p>{{ $vl_movie }}</p>
                         <i class="icon ion-ios-film"></i>
                     </div>
                 </div>
@@ -35,8 +25,8 @@
                 <!-- stats -->
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="stats">
-                        <span>Bình luận mới</span>
-                        <p>2 573</p>
+                        <span>Bình luận mới trong tháng</span>
+                        <p>{{ $vl_com }}</p>
                         <i class="icon ion-ios-chatbubbles"></i>
                     </div>
                 </div>
@@ -45,9 +35,19 @@
                 <!-- stats -->
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="stats">
-                        <span>Doanh thu</span>
-                        <p>{{ $moneys }}</p>
+                        <span>Doanh thu tháng</span>
+                        <p>{{ $money_moth }}</p>
                         <i class="icon ion-ios-star-half"></i>
+                    </div>
+                </div>
+                <!-- end stats -->
+                
+                <!-- stats -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="stats">
+                        <span>Doanh thu năm</span>
+                        <p>{{ $money_year }}</p>
+                        <i class="icon ion-ios-stats"></i>
                     </div>
                 </div>
                 <!-- end stats -->

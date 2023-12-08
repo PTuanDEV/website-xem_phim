@@ -15,7 +15,7 @@
 
  <!-- search -->
  <form action="<?php echo \htmlentities(route('admin/user/unblock/serch')??'', ENT_QUOTES, 'UTF-8', false); ?>" method="post" class="main__title-form">
- <input type="text" name="i_serch" placeholder="Tìm tên ...">
+ <input type="text" name="i_serch" placeholder="Tìm tên đăng nhâp ...">
  <button type="submit">
  <i class="icon ion-ios-search"></i>
  </button>

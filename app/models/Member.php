@@ -54,7 +54,7 @@ class Member extends BaseModel
     }
     // End block 
 
-    // Block
+    // Team
     public function getTeam($today)
     {
         $sql = "SELECT *, DATE_ADD(b.`date_buy`, INTERVAL 30 DAY) AS `dateend` FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_list_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,b.`date_buy`,'" . $today . "') < 30 and u.`status` =1 ";
@@ -75,7 +75,7 @@ class Member extends BaseModel
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
-    // Lấy một team
+    // Lấy một team 
     public function getOneTeam($id, $today)
     {
         $sql = "SELECT * FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_list_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,b.`date_buy`,'" . $today . "') < 30 and u.`status` = 1 AND b.`id_user`=" . $id;
@@ -89,7 +89,7 @@ class Member extends BaseModel
         $this->setQuery($sql);
         return $this->loadRow();
     }
-    // End block 
+    // End Team 
 
     // Thêm vào vnpay
     public function addVnpay($vnp_Amount, $vnp_BankCode, $vnp_BankTranNo, $vnp_CardType, $vnp_OrderInfo, $vnp_PayDate, $vnp_TmnCode, $vnp_TransactionNo, $vnp_TxnRef, $vnp_SecureHash, $id)
@@ -107,11 +107,11 @@ class Member extends BaseModel
         return $this->loadRow([$name]);
     }
     // Truy vấn theo tên gói có id
-    public function getListBillId($id,$name)
+    public function getListBillId($id, $name)
     { //
         $sql = "SELECT * FROM  $this->table WHERE `name_member`=? and `id_list_bill`<> ?";
         $this->setQuery($sql);
-        return $this->loadRow([$name,$id]);
+        return $this->loadRow([$name, $id]);
     }
     // Thêm vào bill
     public function addBill($date_buy, $price, $id_user, $id_list_bill)
