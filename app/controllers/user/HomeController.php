@@ -3,6 +3,7 @@
 namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
+use App\Models\Bill;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\History;
@@ -20,6 +21,7 @@ class HomeController extends BaseController
     protected $user;
     protected $comment;
     protected $history;
+    protected $bill;
     public function __construct()
     {
         $this->movie = new Movie();
@@ -28,6 +30,7 @@ class HomeController extends BaseController
         $this->user = new User();
         $this->comment = new Comment();
         $this->history = new History();
+        $this->bill = new Bill();
     }
 
     public function home()
@@ -88,11 +91,16 @@ class HomeController extends BaseController
             $videos = "link";
         }
         $relus = $this->movie->updateSee($id, ($movies->viewer + 1));
-        if (isset($_SESSION['login']) && isset($_SESSION['member'])) {
-            $rlt = $this->history->add($_SESSION['login']->id_user, $movies->id_movie, $today);
-        }
-        $comments = $this->comment->getAll($movies->id_movie);
         if ($relus) {
+            if (isset($_SESSION['login']) && isset($_SESSION['member'])) {
+                $historys = $this->history->getOneAll($_SESSION['login']->id_user, $movies->id_movie);
+                if ($historys) {
+                    $rlt = $this->history->updateDateSee($historys->id_his, $today);
+                } else {
+                    $rlt = $this->history->add($_SESSION['login']->id_user, $movies->id_movie, $today);
+                }
+            }
+            $comments = $this->comment->getAll($movies->id_movie);
             return $this->render('user.home.detail', compact('movies', 'categorys', 'trailer', 'videos', 'comments'));
         }
     }
@@ -208,7 +216,7 @@ class HomeController extends BaseController
                     flash('errors', $error, 'buymember');
                 } else {
                     $relust = $this->user->updateMoney($_SESSION['login']->id_user, ($_SESSION['login']->money - $pricing_plan));
-                    $_SESSION['member'] = $this->member->getOneTeamDay($_SESSION['login']->id_user);
+                    $_SESSION['member'] = $this->member->getOneTeam($_SESSION['login']->id_user, $today);
                     $_SESSION['login'] = $this->user->getUser($_SESSION['login']->username);
                     if ($relust && $_SESSION['login'] && $_SESSION['member']) {
                         $rlt = $this->member->updateBill($today, $pricing_plan, $listbill->id_list_bill, $_SESSION['member']->id_bill, $_SESSION['login']->id_user);
@@ -349,5 +357,78 @@ class HomeController extends BaseController
                 }
             }
         }
+    }
+    public function userHistory()
+    {
+        $hismax = $this->history->getAllUser($_SESSION['login']->id_user);
+        $maxpage = count($hismax);
+        $size = $maxpage;
+        $per_page = 7;
+        $page = 1;
+        $start = (($page - 1) * $per_page);
+
+        if ($maxpage % $per_page == 0) {
+            $maxpage = $maxpage / $per_page;
+        } else {
+            $maxpage = ceil($maxpage / $per_page);
+        }
+        $historys = $this->history->getPageUser($_SESSION['login']->id_user, $start, $per_page);
+
+        $categorys = $this->category->getAll();
+        $this->render("user.home.history", compact("categorys", "historys", 'size', 'maxpage', 'page'));
+    }
+
+    public function pageHistory($page)
+    {
+        $hismax = $this->history->getAllUser($_SESSION['login']->id_user);
+        $maxpage = count($hismax);
+        $size = $maxpage;
+        $per_page = 7;
+        $start = (($page - 1) * $per_page);
+        if ($maxpage % $per_page == 0) {
+            $maxpage = $maxpage / $per_page;
+        } else {
+            $maxpage = ceil($maxpage / $per_page);
+        }
+        $historys = $this->history->getPageUser($_SESSION['login']->id_user, $start, $per_page);
+
+        $categorys = $this->category->getAll();
+        $this->render("user.home.history", compact("categorys", "historys", 'size', 'maxpage', 'page'));
+    }
+
+    public function userBill()
+    {
+        $billmax = $this->bill->getAllUser($_SESSION['login']->id_user);
+        $maxpage = count($billmax);
+        $size = $maxpage;
+        $per_page = 7;
+        $page = 1;
+        $start = (($page - 1) * $per_page);
+
+        if ($maxpage % $per_page == 0) {
+            $maxpage = $maxpage / $per_page;
+        } else {
+            $maxpage = ceil($maxpage / $per_page);
+        }
+        $bills = $this->bill->getPageUser($_SESSION['login']->id_user, $start, $per_page);
+        $categorys = $this->category->getAll();
+        $this->render("user.home.bill", compact("categorys", "bills", 'size', 'maxpage', 'page'));
+    }
+
+    public function pageBill($page)
+    {
+        $billmax = $this->bill->getAllUser($_SESSION['login']->id_user);
+        $maxpage = count($billmax);
+        $size = $maxpage;
+        $per_page = 7;
+        $start = (($page - 1) * $per_page);
+        if ($maxpage % $per_page == 0) {
+            $maxpage = $maxpage / $per_page;
+        } else {
+            $maxpage = ceil($maxpage / $per_page);
+        }
+        $bills = $this->bill->getPageUser($_SESSION['login']->id_user, $start, $per_page);
+        $categorys = $this->category->getAll();
+        $this->render("user.home.bill", compact("categorys", "bills", 'size', 'maxpage', 'page'));
     }
 }

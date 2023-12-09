@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- CSS -->
+    @include('admin.layout.style')
     @include('user.layout.style')
 
 
@@ -55,6 +56,7 @@
         </div>
     </footer>
     <!-- end footer -->
+    {{-- @include('admin.layout.script') --}}
     @include('user.layout.script')
 
 </body>

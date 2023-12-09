@@ -46,12 +46,11 @@ class BillController extends BaseController
         }
         $bills = $this->bill->getPage($start, $per_page);
 
-        return $this->render('admin.bill.list', compact('categorys', 'size', 'maxpage', 'page'));
+        return $this->render('admin.bill.list', compact('bills', 'size', 'maxpage', 'page'));
     }
     public function getSerch()
     {
         $bills = $this->bill->getSerch($_POST['i_serch']);
         return $this->render('admin.bill.serch', compact('bills'));
     }
-
 }

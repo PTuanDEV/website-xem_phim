@@ -1,4 +1,4 @@
-@extends('user.layout.main')
+@extends('user.form.main')
 @section('container')
     <div class="sign section--bg" data-bg="img/section/section.jpg">
         <div class="container">

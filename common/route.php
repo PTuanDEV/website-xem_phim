@@ -239,7 +239,10 @@ $router->post('forgot', [App\Controllers\User\FormController::class, 'postForgot
 $router->get('logout', [App\Controllers\User\FormController::class, 'logOut']);
 $router->get('profile', [App\Controllers\User\HomeController::class, 'profile']);
 $router->post('user_update', [App\Controllers\User\HomeController::class, 'userUpdate']);
-
+$router->get('history', [App\Controllers\User\HomeController::class, 'userHistory']);
+$router->get('history/{page}', [App\Controllers\User\HomeController::class, 'pageHistory']);
+$router->get('bill', [App\Controllers\User\HomeController::class, 'userBill']);
+$router->get('bill/{page}', [App\Controllers\User\HomeController::class, 'pageBill']);
 // khu vực cần quan tâm -----------
 //$router->get('test', [App\Controllers\ProductController::class, 'index']);
 

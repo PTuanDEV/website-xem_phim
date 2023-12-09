@@ -13,82 +13,76 @@ class Member extends BaseModel
     // Unblock
     public function getAll()
     {
-        $sql = "SELECT * FROM  $this->table where  status  = 1 ";
+        $sql = "SELECT * FROM  $this->table where  `status`  = 1 ";
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
     public function getPage($start, $per_page)
     {
-        $sql = "SELECT * FROM  $this->table where  status = 1 order by create_at desc LIMIT $start, $per_page";
+        $sql = "SELECT * FROM  $this->table where  `status` = 1 order by `create_at` desc LIMIT ? OFFSET ? ";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows([$per_page, $start]);
     }
     public function getSerch($serch)
     {
-        $sql = "SELECT * FROM  $this->table  WHERE status = 1 and name_member LIKE '%$serch%' order by create_at desc";
+        $sql = "SELECT * FROM  $this->table  WHERE `status` = 1 and `name_member` LIKE ? order by `create_at` desc";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows(["%" . $serch . "%"]);
     }
     // End Unblock
 
     // Block
     public function getBlock()
     {
-        $sql = "SELECT * FROM  $this->table where  status  = 0 ";
+        $sql = "SELECT * FROM  $this->table where  `status`  = 0 ";
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
     // Lấy tất cả theo trang
     public function getPageBlock($start, $per_page)
     {
-        $sql = "SELECT * FROM  $this->table where  status = 0  order by create_at desc LIMIT $start, $per_page";
+        $sql = "SELECT * FROM  $this->table where  `status` = 0  order by `create_at` desc LIMIT ? OFFSET ? ";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows([$per_page, $start]);
     }
     // Lấy tất cả theo tên
     public function getSerchBlock($serch)
     {
-        $sql = "SELECT * FROM  $this->table  WHERE status = 0  name_member LIKE '%$serch%' order by create_at desc";
+        $sql = "SELECT * FROM  $this->table  WHERE `status` = 0  `name_member` LIKE ? order by `create_at` desc";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows(["%" . $serch . "%"]);
     }
     // End block 
 
     // Team
     public function getTeam($today)
     {
-        $sql = "SELECT *, DATE_ADD(b.`date_buy`, INTERVAL 30 DAY) AS `dateend` FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_list_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,b.`date_buy`,'" . $today . "') < 30 and u.`status` =1 ";
+        $sql = "SELECT *, DATE_ADD(b.`date_buy`, INTERVAL 30 DAY) AS `dateend` FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_list_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,b.`date_buy`, ? ) < 30 and u.`status` =1 ";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows([$today]);
     }
     // Lấy tất cả theo trang
     public function getPageTeam($today, $start, $per_page)
     {
-        $sql = "SELECT *, DATE_ADD(b.`date_buy`, INTERVAL 30 DAY) AS `dateend` FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_list_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,b.`date_buy`,'" . $today . "') < 30 and u.`status` = 1  LIMIT " . $start . ", " . $per_page;
+        $sql = "SELECT *, DATE_ADD(b.`date_buy`, INTERVAL 30 DAY) AS `dateend` FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_list_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,b.`date_buy`, ? ) < 30 and u.`status` = 1 LIMIT ? OFFSET ? ";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows([$today, $per_page, $start]);
     }
     // Lấy tất cả theo tên
     public function getSerchTeam($today, $serch)
     {
-        $sql = "SELECT * , DATE_ADD(b.`date_buy`, INTERVAL 30 DAY) AS `dateend` FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_list_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,b.`date_buy`,'" . $today . "') < 30 and u.`status` = 1 AND u.fullname LIKE '%" . $serch . "%'";
+        $sql = "SELECT * , DATE_ADD(b.`date_buy`, INTERVAL 30 DAY) AS `dateend` FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_list_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,b.`date_buy`, ? ) < 30 and u.`status` = 1 AND u.`fullname` LIKE ? ";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows([$today, "%" . $serch . "%"]);
     }
     // Lấy một team 
     public function getOneTeam($id, $today)
     {
-        $sql = "SELECT * FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_list_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,b.`date_buy`,'" . $today . "') < 30 and u.`status` = 1 AND b.`id_user`=" . $id;
+        $sql = "SELECT * FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_list_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,b.`date_buy`, ? ) < 30 and u.`status` = 1 AND b.`id_user`= ? ";
         $this->setQuery($sql);
-        return $this->loadRow();
+        return $this->loadRow([$today, $id]);
     }
-    // Lấy một team
-    public function getOneTeamDay($id)
-    {
-        $sql = "SELECT * FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_list_bill`=l.`id_list_bill` WHERE u.`status` = 1 AND b.`id_user`=" . $id;
-        $this->setQuery($sql);
-        return $this->loadRow();
-    }
+
     // End Team 
 
     // Thêm vào vnpay
@@ -131,7 +125,7 @@ class Member extends BaseModel
     // Lấy một giá trị
     public function getOne($id)
     {
-        $sql = "SELECT * FROM $this->table WHERE id_list_bill=?";
+        $sql = "SELECT * FROM $this->table WHERE `id_list_bill`=?";
         $this->setQuery($sql);
         return $this->loadRow([$id]);
     }

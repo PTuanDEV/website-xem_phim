@@ -1,4 +1,4 @@
-@extends('user.layout.main')
+@extends('user.form.main')
 @section('container')
     <div class="sign section--bg" data-bg="img/section/section.jpg">
         <div class="container">
@@ -40,7 +40,8 @@
                             </div>
 
                             <div class="sign__group">
-                                <input type="password" class="sign__input" name="confim_password" placeholder="Nhập lại mật khẩu">
+                                <input type="password" class="sign__input" name="confim_password"
+                                    placeholder="Nhập lại mật khẩu">
                             </div>
 
                             <input type="submit" class="sign__btn" name="signup" value="Đăng kí">
@@ -65,7 +66,8 @@
                                     </svg></a>
                             </div>
 
-                            <span class="sign__text">Bạn đã có tài khoản? <a href="{{ route('signin') }}">Đăng nhập!</a></span>
+                            <span class="sign__text">Bạn đã có tài khoản? <a href="{{ route('signin') }}">Đăng
+                                    nhập!</a></span>
                         </form>
                         <!-- registration form -->
                     </div>

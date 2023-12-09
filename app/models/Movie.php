@@ -12,122 +12,122 @@ class Movie extends BaseModel
     // Unblock
     public function getAll()
     {
-        $sql = "SELECT *,m.`img` as `img_movie`, m.`status` as `status_movie` FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  JOIN $this->user u ON m.id_user=u.id_user WHERE  m.status =2 AND c.status=1  order by creater_at DESC";
+        $sql = "SELECT *,m.`img` as `img_movie`, m.`status` as `status_movie` FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate`  JOIN $this->user u ON m.`id_user`=u.`id_user` WHERE  m.`status` =2 AND c.`status`=1  order by `creater_at` DESC";
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
     public function getPage($start, $per_page)
     {
-        $sql = "SELECT *,m.`img` as `img_movie`, m.`status` as `status_movie` FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate JOIN $this->user u ON m.id_user=u.id_user WHERE  m.status =2 AND c.status=1  order by creater_at DESC LIMIT $start, $per_page";
+        $sql = "SELECT *,m.`img` as `img_movie`, m.`status` as `status_movie` FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate` JOIN $this->user u ON m.`id_user`=u.`id_user` WHERE  m.`status` =2 AND c.`status`=1  order by `creater_at` DESC LIMIT ? OFFSET ? ";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows([$per_page, $start]);
     }
     public function getSerch($serch)
     {
-        $sql = "SELECT *,m.`img` as `img_movie`, m.`status` as `status_movie` FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate JOIN $this->user u ON m.id_user=u.id_user WHERE m.status =2 AND c.status=1 and name_movie LIKE '%$serch%' order by creater_at desc";
+        $sql = "SELECT *,m.`img` as `img_movie`, m.`status` as `status_movie` FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate` JOIN $this->user u ON m.`id_user`=u.`id_user` WHERE m.`status` =2 AND c.`status`=1 and `name_movie` LIKE ? order by `creater_at` desc";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows(["%" . $serch . "%"]);
     }
     // End Unblock 
 
     // Block
     public function getBlock()
     {
-        $sql = "SELECT * FROM  $this->table where  status =0  order by creater_at desc";
+        $sql = "SELECT * FROM  $this->table where  `status` = 0  order by `creater_at` desc";
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
     public function getPageBlock($start, $per_page)
     {
-        $sql = "SELECT * FROM  $this->table where  status =0  order by creater_at desc LIMIT $start, $per_page";
+        $sql = "SELECT * FROM  $this->table where  `status` = 0  order by `creater_at` desc LIMIT ? OFFSET ? ";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows([$per_page, $start]);
     }
     public function getSerchBlock($serch)
     {
-        $sql = "SELECT * FROM  $this->table  WHERE name_movie LIKE '%$serch%'  and status =0 order by creater_at desc";
+        $sql = "SELECT * FROM  $this->table  WHERE `name_movie` LIKE ?  and `status` =0 order by `creater_at` desc";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows(["%" . $serch . "%"]);
     }
     // End Block 
 
     // Browser
     public function getBrowser()
     {
-        $sql = "SELECT * ,m.`img` as `img_movie`, m.`status` as 'status_m' FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate JOIN user u ON m.id_user=u.id_user  WHERE   c.status=1 AND ( m.status =1 or m.status =3 )  order by creater_at DESC";
+        $sql = "SELECT * ,m.`img` as `img_movie`, m.`status` as 'status_m' FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate` JOIN user u ON m.`id_user`=u.`id_user`  WHERE   c.`status`=1 AND ( m.`status` =1 or m.`status` =3 )  order by `creater_at` DESC";
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
     public function getPageBrowser($start, $per_page)
     {
-        $sql = "SELECT * ,m.`img` as `img_movie`, m.`status` as 'status_m' FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate JOIN user u ON m.id_user=u.id_user WHERE  c.status=1 AND  (m.status =1 or m.status =3)  order by creater_at DESC LIMIT $start, $per_page";
+        $sql = "SELECT * ,m.`img` as `img_movie`, m.`status` as 'status_m' FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate` JOIN user u ON m.`id_user`=u.`id_user` WHERE  c.`status`=1 AND  (m.`status` =1 or m.`status` =3)  order by `creater_at` DESC LIMIT ? OFFSET ? ";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows([$per_page, $start]);
     }
     public function getSerchBrowser($serch)
     {
-        $sql = "SELECT * ,m.`img` as `img_movie`, m.`status` as 'status_m' FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate JOIN user u ON m.id_user=u.id_user WHERE m.name_movie LIKE '%$serch%' and c.status=1 AND  (m.status =1 or m.status =3) order by creater_at desc";
+        $sql = "SELECT * ,m.`img` as `img_movie`, m.`status` as 'status_m' FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate` JOIN user u ON m.`id_user`=u.`id_user` WHERE m.`name_movie` LIKE ? and c.`status`=1 AND  (m.`status` =1 or m.`status` =3) order by `creater_at` desc";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows(["%" . $serch . "%"]);
     }
     // End Browser
 
     // Unblock Staff
     public function getAllStaff($id)
     {
-        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate WHERE  m.status =2 AND c.status=1 and m.`id_user`=" . $id . "  order by creater_at DESC";
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate` WHERE  m.`status` =2 AND c.`status`=1 and m.`id_user`= ?  order by `creater_at` DESC";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows([$id]);
     }
     public function getPageStaff($id, $start, $per_page)
     {
-        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate WHERE  m.status =2 AND c.status=1 and m.`id_user`=" . $id . " order by creater_at DESC LIMIT $start, $per_page";
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate` WHERE  m.`status` =2 AND c.`status`=1 and m.`id_user`= ? order by `creater_at` DESC LIMIT ? OFFSET ? ";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows([$id, $per_page, $start]);
     }
     public function getSerchStaff($id, $serch)
     {
-        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  WHERE m.status =2 AND c.status=1 and m.`id_user`=" . $id . " and name_movie LIKE '%$serch%' order by creater_at desc";
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate`  WHERE m.`status` =2 AND c.`status`=1 and m.`id_user`=" . $id . " and `name_movie` LIKE '%$serch%' order by `creater_at` desc";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows([$id, "%" . $serch . "%"]);
     }
     // End Unblock  Staff
 
     // Browser Staff
     public function getBrowserStaff($id)
     {
-        $sql = "SELECT * , m.`status` as 'status_m' FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate WHERE   c.status=1 AND ( m.status =1 or m.status =3 ) and m.id_user=" . $id . "  order by creater_at DESC";
+        $sql = "SELECT * , m.`status` as 'status_m' FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate` WHERE   c.`status`=1 AND ( m.`status` =1 or m.`status` =3 ) and m.`id_user`=?  order by `creater_at` DESC";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows([$id]);
     }
     public function getPageBrowserStaff($id, $start, $per_page)
     {
-        $sql = "SELECT * , m.`status` as 'status_m' FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate WHERE  c.status=1 AND  (m.status =1 or m.status =3)  and m.id_user=" . $id . "   order by creater_at DESC LIMIT $start, $per_page";
+        $sql = "SELECT * , m.`status` as 'status_m' FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate` WHERE  c.`status`=1 AND  (m.`status` =1 or m.`status` =3)  and m.`id_user`=? order by `creater_at` DESC LIMIT ? OFFSET ? ";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows([$id, $per_page, $start]);
     }
     public function getSerchBrowserStaff($id, $serch)
     {
-        $sql = "SELECT * , m.`status` as 'status_m' FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  WHERE m.name_movie LIKE '%$serch%' and c.status=1 AND  (m.status =1 or m.status =3)  and m.id_user=" . $id . "  order by creater_at desc";
+        $sql = "SELECT * , m.`status` as 'status_m' FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate`  WHERE m.`name_movie` LIKE ? and c.`status`=1 AND  (m.`status` =1 or m.`status` =3)  and m.`id_user`= ?  order by `creater_at` desc";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows("%" . $serch . "%", $id);
     }
     // End Browser Staff
 
     //Trang thống kê
-    // lấy danh sách 5 phim mới nhất 
+    // lấy danh sách 5 phim Xem nhiều nhất
     public function getAllStat()
     {
-        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  WHERE  m.status =2 AND c.status=1  order by viewer DESC limit 5";
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate`  WHERE  m.`status` =2 AND c.`status`=1  order by `viewer` DESC limit 5";
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
     // lấy danh sách phim mới trong tháng 
     public function getAllMonth($start, $end)
     {
-        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  WHERE  m.status =2 AND c.status=1  AND  `creater_at` > '" . $start . "' AND `creater_at` < '" . $end . "'  ";
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate`  WHERE  m.`status` =2 AND c.`status`=1  AND  `creater_at` > ? AND `creater_at` < ? ";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows([$start, $end]);
     }
     //End trang thống kê
 
@@ -136,14 +136,14 @@ class Movie extends BaseModel
     // lấy danh sách mới nhất của trang chủ 
     public function getAllIndexNew()
     {
-        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  WHERE  m.status =2 AND c.status=1  order by creater_at DESC limit 10";
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate`  WHERE  m.`status` =2 AND c.`status`=1  order by `creater_at` DESC limit 10";
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
     // lấy danh sách sắp ra mắt của trang chủ 
     public function getAllIndexNear()
     {
-        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  WHERE  m.status =2 AND c.status=1  order by date_play limit 10";
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate`  WHERE  m.`status` =2 AND c.`status`=1  order by `date_play` limit 10";
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
@@ -151,7 +151,7 @@ class Movie extends BaseModel
     // lấy danh sách mới nhất của sản phẩm
     public function getAllNew()
     {
-        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  WHERE  m.status =2 AND c.status=1  order by creater_at DESC ";
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate`  WHERE  m.`status` =2 AND c.`status`=1  order by `creater_at` DESC ";
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
@@ -159,14 +159,14 @@ class Movie extends BaseModel
     // lấy danh sách sắp ra mắt của sản phẩm 
     public function getAllNear()
     {
-        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  WHERE  m.status =2 AND c.status=1  order by date_play";
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate`  WHERE  m.`status` =2 AND c.`status`=1  order by `date_play`";
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
     // lấy danh sách lượt xem của trang sản phẩm
     public function getAllSee()
     {
-        $sql = "SELECT * FROM $this->table  WHERE  `status` =2   order by viewer DESC ";
+        $sql = "SELECT * FROM $this->table  WHERE  `status` =2   order by `viewer` DESC ";
         $this->setQuery($sql);
         return $this->loadAllRows();
     }
@@ -180,9 +180,9 @@ class Movie extends BaseModel
     // Tìm kiếm theo tên
     public function getSerchHome($serch)
     {
-        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate WHERE m.status =2 AND c.status=1 and name_movie LIKE '%$serch%' order by creater_at desc";
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate` WHERE m.`status` =2 AND c.`status`=1 and `name_movie` LIKE ? order by `creater_at` desc";
         $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows(["%" . $serch . "%"]);
     }
     // End trang Người dùng
 
@@ -211,7 +211,7 @@ class Movie extends BaseModel
     //Xem chi tiết
     public function detail($id)
     {
-        $sql = "SELECT * ,m.status as'ttsp' FROM $this->table m  JOIN $this->side_table c ON m.id_cate=c.id_cate  WHERE  m.id_movie=?  ";
+        $sql = "SELECT * ,m.`status` as'ttsp' FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate`  WHERE  m.`id_movie`=?  ";
         $this->setQuery($sql);
         return $this->loadRow([$id]);
     }
@@ -232,14 +232,14 @@ class Movie extends BaseModel
     // Cập nhật trạng thái
     public function updateStatus($id, $status)
     {
-        $sql = "UPDATE $this->table set status=?  WHERE id_movie=?";
+        $sql = "UPDATE $this->table set `status`=?  WHERE `id_movie`=?";
         $this->setQuery($sql);
         return $this->execute([$status, $id]);
     }
     // Cập nhật mat xem
     public function updateSee($id, $viewer)
     {
-        $sql = "UPDATE $this->table set viewer=?  WHERE id_movie=?";
+        $sql = "UPDATE $this->table set `viewer`=?  WHERE `id_movie`=?";
         $this->setQuery($sql);
         return $this->execute([$viewer, $id]);
     }

@@ -70,10 +70,10 @@
                                         <a href="{{ route('money') }}">Nạp tiền</a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('product') }}">Lịch sử xem</a>
+                                        <a href="{{ route('history') }}">Lịch sử xem</a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('product') }}">Lịch sử nạp</a>
+                                        <a href="{{ route('bill') }}">Lịch sử nạp</a>
                                     </li>
                                     <li>
                                         <a href="{{ route('logout') }}">Đăng xuất</a>

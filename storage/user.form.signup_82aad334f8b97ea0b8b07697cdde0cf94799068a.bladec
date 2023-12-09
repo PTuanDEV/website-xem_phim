@@ -76,4 +76,4 @@
  </div>
 <?php $this->stopSection(); ?>
 
-<?php if (isset($_shouldextend[1])) { echo $this->runChild('user.layout.main'); } ?>
+<?php if (isset($_shouldextend[1])) { echo $this->runChild('user.form.main'); } ?>
