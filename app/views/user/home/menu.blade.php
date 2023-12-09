@@ -27,7 +27,7 @@
                             <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
                                 @foreach ($categorys as $value_cate)
                                     <li><a
-                                            href="{{ route('product/' . $value_cate->id_cate) }}">{{ $value_cate->name_cate }}</a>
+                                            href="{{ route('product/1/' . $value_cate->id_cate) }}">{{ $value_cate->name_cate }}</a>
                                     </li>
                                 @endforeach
                             </ul>

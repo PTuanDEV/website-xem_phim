@@ -148,35 +148,6 @@ class Movie extends BaseModel
         return $this->loadAllRows();
     }
 
-    // lấy danh sách mới nhất của sản phẩm
-    public function getAllNew()
-    {
-        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate`  WHERE  m.`status` =2 AND c.`status`=1  order by `creater_at` DESC ";
-        $this->setQuery($sql);
-        return $this->loadAllRows();
-    }
-
-    // lấy danh sách sắp ra mắt của sản phẩm 
-    public function getAllNear()
-    {
-        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate`  WHERE  m.`status` =2 AND c.`status`=1  order by `date_play`";
-        $this->setQuery($sql);
-        return $this->loadAllRows();
-    }
-    // lấy danh sách lượt xem của trang sản phẩm
-    public function getAllSee()
-    {
-        $sql = "SELECT * FROM $this->table  WHERE  `status` =2   order by `viewer` DESC ";
-        $this->setQuery($sql);
-        return $this->loadAllRows();
-    }
-    // Lấy sản phẩm theo loại
-    public function getAllId($id)
-    {
-        $sql = "SELECT * FROM $this->table WHERE  `status` =2 AND `id_cate`=?  order by `creater_at` DESC";
-        $this->setQuery($sql);
-        return $this->loadAllRows([$id]);
-    }
     // Tìm kiếm theo tên
     public function getSerchHome($serch)
     {
@@ -236,6 +207,13 @@ class Movie extends BaseModel
         $this->setQuery($sql);
         return $this->execute([$status, $id]);
     }
+    // Cập nhật trạng thái của duyệt sửa ngày tạo
+    // public function updateStatusDay($id, $status)
+    // {
+    //     $sql = "UPDATE $this->table set `status`=?   WHERE `id_movie`=?";
+    //     $this->setQuery($sql);
+    //     return $this->execute([$status, $id]);
+    // }
     // Cập nhật mat xem
     public function updateSee($id, $viewer)
     {
@@ -243,4 +221,64 @@ class Movie extends BaseModel
         $this->setQuery($sql);
         return $this->execute([$viewer, $id]);
     }
+
+    // Trang sản phẩm
+    // Lấy sản phẩm theo loại
+    public function getAllId($id)
+    {
+        $sql = "SELECT * FROM $this->table WHERE  `status` =2 AND `id_cate`= ? ";
+        $this->setQuery($sql);
+        return $this->loadAllRows([$id]);
+    }
+    public function getPageId($id, $per_page, $start)
+    {
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate`  WHERE  m.`status` =2 AND c.`status`=1 AND c.`id_cate`= ?  order by m.`creater_at` DESC  LIMIT ? OFFSET ? ";
+        $this->setQuery($sql);
+        return $this->loadAllRows([$id, $per_page, $start]);
+    }
+    //
+    // lấy danh sách mới nhất của sản phẩm
+    public function getAllNew()
+    {
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate`  WHERE  m.`status` =2 AND c.`status`=1  ";
+        $this->setQuery($sql);
+        return $this->loadAllRows();
+    }
+    public function getPageNew($per_page, $start)
+    {
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate`  WHERE  m.`status` =2 AND c.`status`=1  order by m.`creater_at` DESC LIMIT ? OFFSET ? ";
+        $this->setQuery($sql);
+        return $this->loadAllRows([$per_page, $start]);
+    }
+    // 
+    // lấy danh sách sắp ra mắt của sản phẩm 
+    public function getAllNear()
+    {
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate`  WHERE  m.`status` =2 AND c.`status`=1  ";
+        $this->setQuery($sql);
+        return $this->loadAllRows();
+    }
+    public function getPageNear($per_page, $start)
+    {
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate`  WHERE  m.`status` =2 AND c.`status`=1  order by m.`date_play` LIMIT ? OFFSET ?  ";
+        $this->setQuery($sql);
+        return $this->loadAllRows([$per_page, $start]);
+    }
+
+    //
+    // lấy danh sách lượt xem của trang sản phẩm
+    public function getAllSee()
+    {
+        $sql = "SELECT * FROM $this->table  WHERE  `status` =2  ";
+        $this->setQuery($sql);
+        return $this->loadAllRows();
+    }
+    public function getPageSee($per_page, $start)
+    {
+        $sql = "SELECT * FROM $this->table m  JOIN $this->side_table c ON m.`id_cate`=c.`id_cate`  WHERE  m.`status` =2 AND c.`status`=1   order by m.`viewer` DESC  LIMIT ? OFFSET ?  ";
+        $this->setQuery($sql);
+        return $this->loadAllRows([$per_page, $start]);
+    }
+    //
+
 }

@@ -19,9 +19,9 @@
 
  <ul class="filter__item-menu dropdown-menu scrollbar-dropdown"
  aria-labelledby="filter-genre">
- <li><a href="<?php echo \htmlentities(route('product/new')??'', ENT_QUOTES, 'UTF-8', false); ?>">Mới nhất</a></li>
- <li><a href="<?php echo \htmlentities(route('product/near')??'', ENT_QUOTES, 'UTF-8', false); ?>">Sắp chiếu</a></li>
- <li><a href="<?php echo \htmlentities(route('product/see')??'', ENT_QUOTES, 'UTF-8', false); ?>">Xem nhiều nhất</a></li>
+ <li><a href="<?php echo \htmlentities(route('product/1/new')??'', ENT_QUOTES, 'UTF-8', false); ?>">Mới nhất</a></li>
+ <li><a href="<?php echo \htmlentities(route('product/1/near')??'', ENT_QUOTES, 'UTF-8', false); ?>">Sắp chiếu</a></li>
+ <li><a href="<?php echo \htmlentities(route('product/1/see')??'', ENT_QUOTES, 'UTF-8', false); ?>">Xem nhiều nhất</a></li>
  </ul>
  </div>
  <!-- end filter item -->
@@ -42,16 +42,16 @@
  <!-- card -->
  <?php $__currentLoopData = $products; $this->addLoop($__currentLoopData);$this->getFirstLoop();
  foreach($__currentLoopData as $value_products): $loop = $this->incrementLoopIndices();  ?>
- <div class="col-6 col-sm-4 col-md-3 col-xl-2">
+ <div class="col-6 col-sm-4 col-md-3">
  <div class="card">
- <div class="card__cover">
+ <div class="card__cover" style="margin: 25px; height:350px;">
  <img src="<?php echo \htmlentities(BASE_URL . 'public/img/img_upload/' . $value_products->img??'', ENT_QUOTES, 'UTF-8', false); ?>"
- alt="" style="width:200px; height:350px;">
+ alt="" style="object-fit: cover;">
  <a href="<?php echo \htmlentities(route('details/' . $value_products->id_movie)??'', ENT_QUOTES, 'UTF-8', false); ?>" class="card__play">
  <i class="icon ion-ios-play"></i>
  </a>
  </div>
- <div class="card__content">
+ <div class="card__content" style="margin: 0px 25px;">
  <h3 class="card__title"><a
  href="<?php echo \htmlentities(route('details/' . $value_products->id_movie)??'', ENT_QUOTES, 'UTF-8', false); ?>"><?php echo \htmlentities($value_products->name_movie??'', ENT_QUOTES, 'UTF-8', false); ?></a>
  </h3>
@@ -66,8 +66,30 @@
  <!-- end card -->
  </div>
 
+ <div class="row">
+ <!-- paginator -->
+ <ul class="paginator">
+ <?php if($page > 1): ?>
+ <li class="paginator__item paginator__item--prev">
+ <a href="<?php echo \htmlentities(route('product/' . $page - 1)??'', ENT_QUOTES, 'UTF-8', false); ?>/<?php echo \htmlentities($id??'', ENT_QUOTES, 'UTF-8', false); ?>"><i
+ class="icon ion-ios-arrow-back"></i></a>
+ </li>
+ <?php endif; ?>
+
+ <li class="paginator__item paginator__item--active"><a href="#"><?php echo \htmlentities($page??'', ENT_QUOTES, 'UTF-8', false); ?></a></li>
+ <?php if($page < $maxpage): ?>
+ <li class="paginator__item paginator__item--next">
+ <a href="<?php echo \htmlentities(route('product/' . $page + 1)??'', ENT_QUOTES, 'UTF-8', false); ?>/<?php echo \htmlentities($id??'', ENT_QUOTES, 'UTF-8', false); ?>"><i
+ class="icon ion-ios-arrow-forward"></i></a>
+ </li>
+ <?php endif; ?>
+
+ </ul>
+ <!-- end paginator -->
  </div>
  </div>
+ </div>
+
  <!-- end catalog -->
  <?php else: ?>
  <!-- catalog -->

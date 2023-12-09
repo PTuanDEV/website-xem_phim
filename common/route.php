@@ -221,8 +221,10 @@ if (isset($_SESSION['login']) && $_SESSION['login']->role == 1) {
 }
 
 $router->get('/', [App\Controllers\User\HomeController::class, 'home']);
-$router->get('product/{id}', [App\Controllers\User\HomeController::class, 'productId']);
-$router->post('product/{id}', [App\Controllers\User\HomeController::class, 'productId']);
+$router->get('product/{page}/{id}', [App\Controllers\User\HomeController::class, 'productId']);
+
+// $router->post('product/{id}', [App\Controllers\User\HomeController::class, 'productId']);
+
 $router->get('details/{id}', [App\Controllers\User\HomeController::class, 'details']);
 $router->get('money', [App\Controllers\User\HomeController::class, 'updateMoney']);
 $router->post('money', [App\Controllers\User\HomeController::class, 'vnPay']);
@@ -243,6 +245,7 @@ $router->get('history', [App\Controllers\User\HomeController::class, 'userHistor
 $router->get('history/{page}', [App\Controllers\User\HomeController::class, 'pageHistory']);
 $router->get('bill', [App\Controllers\User\HomeController::class, 'userBill']);
 $router->get('bill/{page}', [App\Controllers\User\HomeController::class, 'pageBill']);
+$router->get('alo/{page}/{id}', [App\Controllers\User\HomeController::class, 'alo']);
 // khu vực cần quan tâm -----------
 //$router->get('test', [App\Controllers\ProductController::class, 'index']);
 

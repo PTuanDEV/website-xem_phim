@@ -19,9 +19,9 @@
 
                                     <ul class="filter__item-menu dropdown-menu scrollbar-dropdown"
                                         aria-labelledby="filter-genre">
-                                        <li><a href="{{ route('product/new') }}">Mới nhất</a></li>
-                                        <li><a href="{{ route('product/near') }}">Sắp chiếu</a></li>
-                                        <li><a href="{{ route('product/see') }}">Xem nhiều nhất</a></li>
+                                        <li><a href="{{ route('product/1/new') }}">Mới nhất</a></li>
+                                        <li><a href="{{ route('product/1/near') }}">Sắp chiếu</a></li>
+                                        <li><a href="{{ route('product/1/see') }}">Xem nhiều nhất</a></li>
                                     </ul>
                                 </div>
                                 <!-- end filter item -->
@@ -41,16 +41,16 @@
                 <div class="row row--grid">
                     <!-- card -->
                     @foreach ($products as $value_products)
-                        <div class="col-6 col-sm-4 col-md-3 col-xl-2">
+                        <div class="col-6 col-sm-4 col-md-3">
                             <div class="card">
-                                <div class="card__cover">
+                                <div class="card__cover" style="margin: 25px; height:350px;">
                                     <img src="{{ BASE_URL . 'public/img/img_upload/' . $value_products->img }}"
-                                        alt="" style="width:200px; height:350px;">
+                                        alt="" style="object-fit: cover;">
                                     <a href="{{ route('details/' . $value_products->id_movie) }}" class="card__play">
                                         <i class="icon ion-ios-play"></i>
                                     </a>
                                 </div>
-                                <div class="card__content">
+                                <div class="card__content" style="margin: 0px 25px;">
                                     <h3 class="card__title"><a
                                             href="{{ route('details/' . $value_products->id_movie) }}">{{ $value_products->name_movie }}</a>
                                     </h3>
@@ -65,8 +65,30 @@
                     <!-- end card -->
                 </div>
 
+                <div class="row">
+                    <!-- paginator -->
+                    <ul class="paginator">
+                        @if ($page > 1)
+                            <li class="paginator__item paginator__item--prev">
+                                <a href="{{ route('product/' . $page - 1) }}/{{ $id }}"><i
+                                        class="icon ion-ios-arrow-back"></i></a>
+                            </li>
+                        @endif
+
+                        <li class="paginator__item paginator__item--active"><a href="#">{{ $page }}</a></li>
+                        @if ($page < $maxpage)
+                            <li class="paginator__item paginator__item--next">
+                                <a href="{{ route('product/' . $page + 1) }}/{{ $id }}"><i
+                                        class="icon ion-ios-arrow-forward"></i></a>
+                            </li>
+                        @endif
+
+                    </ul>
+                    <!-- end paginator -->
+                </div>
             </div>
         </div>
+
         <!-- end catalog -->
     @else
         <!-- catalog -->

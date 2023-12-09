@@ -40,33 +40,77 @@ class HomeController extends BaseController
         $categorys = $this->category->getAll();
         return $this->render('user.home.home', compact('products_new', 'products_near', 'categorys'));
     }
-    public function productId($id)
+    public function productId($page, $id)
     {
         if ($id == 'new') {
-            $products = $this->movie->getAllNew();
+            $newmax = $this->movie->getAllNew();
+            $maxpage = count($newmax);
+            $size = $maxpage;
+            $per_page = 12;
+            $start = (($page - 1) * $per_page);
+
+            if ($maxpage % $per_page == 0) {
+                $maxpage = $maxpage / $per_page;
+            } else {
+                $maxpage = ceil($maxpage / $per_page);
+            }
+            $products = $this->movie->getPageNew($per_page, $start);
             $categorys = $this->category->getAll();
-            return $this->render('user.home.catalog', compact('products', 'categorys'));
+            return $this->render('user.home.catalog', compact('products', 'categorys', 'size', 'maxpage', 'page', 'id'));
         } else {
             if ($id == 'near') {
-                $products = $this->movie->getAllNear();
+                $nearmax = $this->movie->getAllNear();
+                $maxpage = count($nearmax);
+                $size = $maxpage;
+                $per_page = 12;
+                $start = (($page - 1) * $per_page);
+
+                if ($maxpage % $per_page == 0) {
+                    $maxpage = $maxpage / $per_page;
+                } else {
+                    $maxpage = ceil($maxpage / $per_page);
+                }
+                $products = $this->movie->getPageNear($per_page, $start);
                 $categorys = $this->category->getAll();
-                return $this->render('user.home.catalog', compact('products', 'categorys'));
+                return $this->render('user.home.catalog', compact('products', 'categorys','size', 'maxpage', 'page', 'id'));
             } else {
                 if ($id == 'see') {
-                    $products = $this->movie->getAllSee();
+                    $seemax = $this->movie->getAllSee();
+                    $maxpage = count($seemax);
+                    $size = $maxpage;
+                    $per_page = 12;
+                    $start = (($page - 1) * $per_page);
+
+                    if ($maxpage % $per_page == 0) {
+                        $maxpage = $maxpage / $per_page;
+                    } else {
+                        $maxpage = ceil($maxpage / $per_page);
+                    }
+                    $products = $this->movie->getPageSee($per_page, $start);
                     $categorys = $this->category->getAll();
-                    return $this->render('user.home.catalog', compact('products', 'categorys'));
+                    return $this->render('user.home.catalog', compact('products', 'categorys','size', 'maxpage', 'page', 'id'));
                 } else {
                     if ($id == 'serch') {
                         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             $products = $this->movie->getSerchHome($_POST['home_serch']);
                             $categorys = $this->category->getAll();
-                            return $this->render('user.home.catalog', compact('products', 'categorys'));
+                            return $this->render('user.home.catalog', compact('products', 'categorys','size', 'maxpage', 'page', 'id'));
                         }
                     } else {
-                        $products = $this->movie->getAllId($id);
+                        $catmax = $this->movie->getAllId($id);
+                        $maxpage = count($catmax);
+                        $size = $maxpage;
+                        $per_page = 12;
+                        $start = (($page - 1) * $per_page);
+
+                        if ($maxpage % $per_page == 0) {
+                            $maxpage = $maxpage / $per_page;
+                        } else {
+                            $maxpage = ceil($maxpage / $per_page);
+                        }
+                        $products = $this->movie->getPageId($id, $per_page, $start);
                         $categorys = $this->category->getAll();
-                        return $this->render('user.home.catalog', compact('products', 'categorys'));
+                        return $this->render('user.home.catalog', compact('products', 'categorys', 'size', 'maxpage', 'page', 'id'));
                     }
                 }
             }
@@ -430,5 +474,9 @@ class HomeController extends BaseController
         $bills = $this->bill->getPageUser($_SESSION['login']->id_user, $start, $per_page);
         $categorys = $this->category->getAll();
         $this->render("user.home.bill", compact("categorys", "bills", 'size', 'maxpage', 'page'));
+    }
+    public function alo($page, $id)
+    {
+        echo $page, $id;
     }
 }
