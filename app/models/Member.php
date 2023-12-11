@@ -75,14 +75,20 @@ class Member extends BaseModel
         $this->setQuery($sql);
         return $this->loadAllRows([$today, "%" . $serch . "%"]);
     }
-    // Lấy một team 
+    // Lấy một team có hạn
     public function getOneTeam($id, $today)
     {
         $sql = "SELECT * FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_list_bill`=l.`id_list_bill` WHERE TIMESTAMPDIFF (DAY,b.`date_buy`, ? ) < 30 and u.`status` = 1 AND b.`id_user`= ? ";
         $this->setQuery($sql);
         return $this->loadRow([$today, $id]);
     }
-
+    // Lấy một team 
+    public function getOneTeamFull($id_user)
+    {
+        $sql = "SELECT * FROM $this->table2 b  JOIN $this->table3 u on b.`id_user`=u.`id_user` JOIN $this->table l ON b.`id_list_bill`=l.`id_list_bill` WHERE u.`status` = 1 AND b.`id_user`= ? ";
+        $this->setQuery($sql);
+        return $this->loadRow([$id_user]);
+    }
     // End Team 
 
     // Thêm vào vnpay
@@ -115,7 +121,7 @@ class Member extends BaseModel
         return $this->execute([$date_buy, $price, $id_user, $id_list_bill]);
     }
 
-    // Thêm vào bill
+    // Thêm vào cập nhật
     public function updateBill($date_buy, $price, $id_list_bill, $id_bill, $id_user)
     { //UPDATE `web_phim`.`bill` SET `date_buy`='2023-08-28 01:12:09', `price`='1201', `id_list_bill`='2' WHERE  `id_bill`=4;
         $sql = "UPDATE $this->table2 SET `date_buy`=?, `price`=?, `id_list_bill`=? WHERE  `id_bill`=? and `id_user`=? ";

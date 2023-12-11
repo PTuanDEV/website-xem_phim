@@ -6,11 +6,11 @@ USE `web_phim`;
 --
 CREATE TABLE IF NOT EXISTS `categories` (
   `id_cate` int NOT NULL AUTO_INCREMENT,
-  `name_cate` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `name_cate` varchar(250)  NOT NULL,
   `create_at` datetime NOT NULL,
-  `status` int NOT NULL DEFAULT '1',
+  `status` int NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_cate`)
-) ENGINE=InnoDB AUTO_INCREMENT=236 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 --
 INSERT INTO `categories` (`id_cate`, `name_cate`, `create_at`, `status`) VALUES
 	(1, 'hành động', '2002-03-20 00:00:00', 1),
@@ -21,18 +21,18 @@ INSERT INTO `categories` (`id_cate`, `name_cate`, `create_at`, `status`) VALUES
 --
 CREATE TABLE IF NOT EXISTS `user` (
   `id_user` int NOT NULL AUTO_INCREMENT,
-  `fullname` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `email` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `phone` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `img` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `fullname` varchar(100) NOT NULL,
+  `email` varchar(200) NOT NULL,
+  `phone` varchar(10) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `img` varchar(200) DEFAULT NULL,
   `role` int NOT NULL DEFAULT '0',
   `status` int NOT NULL DEFAULT '1',
   `money` double NOT NULL DEFAULT '0',
   `creater` datetime NOT NULL,
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 --
 INSERT INTO `user` (`id_user`, `fullname`, `email`, `phone`, `username`, `password`, `img`, `role`, `status`, `money`, `creater`) VALUES
 	(1, 'Phạm Bá Tuấn', 'tuanpbph30046@fpt.edu.vn', '0352532002', 'admin123', '$2y$10$kQ1yfdP9EgeESkFNz3gA5.4F7ki/MlBAQ2pL9g7tXB3Q/OfUGiydC', 'logo.png', 1, 1, 121212121, '2023-11-18 00:00:00'),
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `movie` (
   `name_movie` varchar(100) NOT NULL,
   `name_trailer` varchar(200) NOT NULL,
   `name_video` varchar(200) NOT NULL,
-  `img` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `img` varchar(200) NOT NULL,
   `performer` text NOT NULL COMMENT 'diễn viên',
   `rearelease_year` int NOT NULL COMMENT 'năm phát hành',
   `time` int NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `movie` (
   KEY `id_user` (`id_user`),
   CONSTRAINT `FK_movie_categories` FOREIGN KEY (`id_cate`) REFERENCES `categories` (`id_cate`),
   CONSTRAINT `FK_movie_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 --
 INSERT INTO `movie` ( `name_movie`, `name_trailer`, `name_video`, `img`, `performer`, `rearelease_year`, `time`, `country`, `creater_at`, `date_play`, `describe`, `viewer`, `status`, `id_cate`, `id_user`) VALUES
 	('Phim Hành động 1', 'https://drive.google.com/file/d/1oLkoDyb6ZoTh7irRB2jwAfXh4WpKmdDE/preview', 'https://drive.google.com/file/d/17UnPCVV-WHBqHjF8CBWSbCcD_Er59FiV/preview', 'logo.png', 'Diễn viên 1', 1, 1, 'vn', '2023-11-01 00:00:00', '2023-11-02 00:00:00', 'Mô tả 1', 0, 2, 1, 2),
@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `list_bill` (
   `create_at` datetime NOT NULL,
   `status` int NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_list_bill`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 --
 INSERT INTO `list_bill` (`id_list_bill`, `name_member`, `pricing_plan`, `create_at`, `status`) VALUES
 	(1, 'Hội viên thường', 120000, '2023-11-26 02:39:01', 1),
@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `bill` (
   KEY `id_user` (`id_user`),
   CONSTRAINT `FK__list_bill` FOREIGN KEY (`id_list_bill`) REFERENCES `list_bill` (`id_list_bill`),
   CONSTRAINT `FK_bill_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 --
 INSERT INTO `bill` (`id_bill`, `date_buy`, `price`, `id_user`, `id_list_bill`) VALUES
 	(1, '2023-11-26 15:37:07', 10000, 1, 1),
@@ -175,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `history` (
   KEY `id_movie` (`id_movie`),
   CONSTRAINT `FK__movie` FOREIGN KEY (`id_movie`) REFERENCES `movie` (`id_movie`),
   CONSTRAINT `FK__user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 --
 -- Comment
@@ -192,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
   KEY `id_movie` (`id_movie`),
   CONSTRAINT `FK_comment_movie` FOREIGN KEY (`id_movie`) REFERENCES `movie` (`id_movie`),
   CONSTRAINT `FK_comment_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 --
 -- Vnpay
@@ -213,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `vnpay` (
   PRIMARY KEY (`id_pay`),
   KEY `FK_vnpay_user` (`id_user`),
   CONSTRAINT `FK_vnpay_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 --
 INSERT INTO `vnpay` (`id_pay`, `vnp_Amount`, `vnp_BankCode`, `vnp_BankTranNo`, `vnp_CardType`, `vnp_OrderInfo`, `vnp_PayDate`, `vnp_TmnCode`, `vnp_TransactionNo`, `vnp_TxnRef`, `vnp_SecureHash`, `id_user`) VALUES
 	(1, '12000000', 'NCB', 'VNP14209617', 'ATM', 'Nộp tiền vào tài khoản', '2023-11-29 21:13:44', '5N23P3P2', '14209617', '498', 'e5e89336cf3f1dcfd1f1908da3fdc65a618605a44b48b430842db9c35aabf58c36c4bdff8fbe1566014c8f77a8951709bd5749b58db5214707ae974270c5b159', 2),

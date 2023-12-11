@@ -72,7 +72,7 @@ class HomeController extends BaseController
                 }
                 $products = $this->movie->getPageNear($per_page, $start);
                 $categorys = $this->category->getAll();
-                return $this->render('user.home.catalog', compact('products', 'categorys','size', 'maxpage', 'page', 'id'));
+                return $this->render('user.home.catalog', compact('products', 'categorys', 'size', 'maxpage', 'page', 'id'));
             } else {
                 if ($id == 'see') {
                     $seemax = $this->movie->getAllSee();
@@ -88,13 +88,13 @@ class HomeController extends BaseController
                     }
                     $products = $this->movie->getPageSee($per_page, $start);
                     $categorys = $this->category->getAll();
-                    return $this->render('user.home.catalog', compact('products', 'categorys','size', 'maxpage', 'page', 'id'));
+                    return $this->render('user.home.catalog', compact('products', 'categorys', 'size', 'maxpage', 'page', 'id'));
                 } else {
                     if ($id == 'serch') {
                         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             $products = $this->movie->getSerchHome($_POST['home_serch']);
                             $categorys = $this->category->getAll();
-                            return $this->render('user.home.catalog', compact('products', 'categorys','size', 'maxpage', 'page', 'id'));
+                            return $this->render('user.home.catalog', compact('products', 'categorys', 'size', 'maxpage', 'page', 'id'));
                         }
                     } else {
                         $catmax = $this->movie->getAllId($id);
@@ -136,7 +136,7 @@ class HomeController extends BaseController
         }
         $relus = $this->movie->updateSee($id, ($movies->viewer + 1));
         if ($relus) {
-            if (isset($_SESSION['login']) && isset($_SESSION['member'])) {
+            if (isset($_SESSION['login']) && ($_SESSION['member'])) {
                 $historys = $this->history->getOneAll($_SESSION['login']->id_user, $movies->id_movie);
                 if ($historys) {
                     $rlt = $this->history->updateDateSee($historys->id_his, $today);
@@ -248,9 +248,13 @@ class HomeController extends BaseController
     {
         if (isset($_POST['buymember'])) {
             $today = date("Y-m-d H:i:s");
+
             $name_member = $_POST['name_member'];
+
             $pricing_plan = $_POST['pricing_plan'];
+
             $listbill = $this->member->getListBill($name_member);
+
             if (($_SESSION['login']->money) <= 0) {
                 $error[] = "Bạn không có tiền trong tài khoản";
                 flash('errors', $error, 'buymember');
@@ -259,26 +263,32 @@ class HomeController extends BaseController
                     $error[] = "Tiền trong tài khoản bạn không đủ vui lòng nạp thêm tiền";
                     flash('errors', $error, 'buymember');
                 } else {
-                    $relust = $this->user->updateMoney($_SESSION['login']->id_user, ($_SESSION['login']->money - $pricing_plan));
-                    $_SESSION['member'] = $this->member->getOneTeam($_SESSION['login']->id_user, $today);
-                    $_SESSION['login'] = $this->user->getUser($_SESSION['login']->username);
-                    if ($relust && $_SESSION['login'] && $_SESSION['member']) {
-                        $rlt = $this->member->updateBill($today, $pricing_plan, $listbill->id_list_bill, $_SESSION['member']->id_bill, $_SESSION['login']->id_user);
-                        if ($rlt) {
-                            $_SESSION['member'] = $this->member->getOneTeam($_SESSION['login']->id_user, $today);
-                            flash('success', 'Mua thành công', '/');
-                        } else {
-                            $error[] = "Lỗi mua gói";
-                            flash('errors', $error, 'buymember');
+                    $members = $this->member->getOneTeamFull($_SESSION['login']->id_user);
+                    if ($_SESSION['login'] && $members) {
+                        $relust = $this->user->updateMoney($_SESSION['login']->id_user, ($_SESSION['login']->money - $pricing_plan));
+                        if ($relust) {
+                            $_SESSION['login'] = $this->user->getUser($_SESSION['login']->username);
+                            $rlt = $this->member->updateBill($today, $pricing_plan, $listbill->id_list_bill, $members->id_bill, $_SESSION['login']->id_user);
+                            if ($rlt) {
+                                $_SESSION['member'] = $this->member->getOneTeam($_SESSION['login']->id_user, $today);
+                                flash('success', 'Mua thành công', '/');
+                            } else {
+                                $error[] = "Lỗi mua gói";
+                                flash('errors', $error, 'buymember');
+                            }
                         }
                     } else {
-                        $rl = $this->member->addBill($today, $pricing_plan, $_SESSION['login']->id_user, $listbill->id_list_bill);
-                        if ($rl) {
-                            $_SESSION['member'] = $this->member->getOneTeam($_SESSION['login']->id_user, $today);
-                            flash('success', 'Mua thành công', '/');
-                        } else {
-                            $error[] = "Lỗi mua gói";
-                            flash('errors', $error, 'buymember');
+                        $relust = $this->user->updateMoney($_SESSION['login']->id_user, ($_SESSION['login']->money - $pricing_plan));
+                        if ($relust) {
+                            $_SESSION['login'] = $this->user->getUser($_SESSION['login']->username);
+                            $rl = $this->member->addBill($today, $pricing_plan, $_SESSION['login']->id_user, $listbill->id_list_bill);
+                            if ($rl) {
+                                $_SESSION['member'] = $this->member->getOneTeam($_SESSION['login']->id_user, $today);
+                                flash('success', 'Mua thành công', '/');
+                            } else {
+                                $error[] = "Lỗi mua gói";
+                                flash('errors', $error, 'buymember');
+                            }
                         }
                     }
                 }
