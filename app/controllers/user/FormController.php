@@ -137,13 +137,17 @@ class FormController extends BaseController
             if (empty($_POST['password'])) {
                 $errors[] = "Vui lòng nhập mật khẩu";
             } else {
-                if (empty($_POST['confim_password'])) {
-                    $errors[] = "Vui lòng nhập lại mật khẩu";
+                if (strlen($_POST['password']) <= 5) {
+                    $errors[] = "Mật khẩu phải lớn hơn 5 kí tự";
                 } else {
-                    if ($_POST['confim_password'] != $_POST['password']) {
-                        $errors[] = "Hai mật khẩu không khớp";
+                    if (empty($_POST['confim_password'])) {
+                        $errors[] = "Vui lòng nhập lại mật khẩu";
                     } else {
-                        $confim_password = password_hash($_POST['confim_password'], PASSWORD_DEFAULT);
+                        if ($_POST['confim_password'] != $_POST['password']) {
+                            $errors[] = "Hai mật khẩu không khớp";
+                        } else {
+                            $confim_password = password_hash($_POST['confim_password'], PASSWORD_DEFAULT);
+                        }
                     }
                 }
             }

@@ -6,7 +6,7 @@
                 <!-- main title -->
                 <div class="col-12">
                     <div class="main__title">
-                        <h2>Hội viênc</h2>
+                        <h2>Hội viên</h2>
 
                         <span class="main__title-stat">{{ $size }}</span>
 
@@ -14,7 +14,7 @@
 
                             <!-- search -->
                             <form action="{{ route('admin/member/team/serch') }}" method="post" class="main__title-form">
-                                <input type="text" name="i_serch" placeholder="Tìm tên ...">
+                                <input type="text" name="i_serch" placeholder="Tìm tên hội viên ...">
                                 <button type="submit">
                                     <i class="icon ion-ios-search"></i>
                                 </button>

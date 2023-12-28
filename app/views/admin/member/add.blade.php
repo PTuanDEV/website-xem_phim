@@ -29,14 +29,14 @@
                                                     <div class="form__group">
                                                         <label class="form__label" for="name_cate">Tên gói</label>
                                                         <input id="name_cate" type="text" name="name_member"
-                                                            class="form__input" value="" placeholder="Loại phim">
+                                                            class="form__input" value="" placeholder="Tên gói">
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="form__group">
                                                         <label class="form__label" for="name_cate">Mức giá</label>
                                                         <input id="name_cate" type="number" name="price"
-                                                            class="form__input" value="" placeholder="Loại phim"
+                                                            class="form__input" value="" placeholder="Giá gói"
                                                             min="0">
                                                     </div>
                                                 </div>
